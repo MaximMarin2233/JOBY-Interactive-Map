@@ -1,0 +1,19 @@
+.header {
+  box-shadow: 0 4px 15px rgb(0 0 0 / 50%);
+  background-color: var(--light-color);
+
+  &__sub {
+    border-bottom: 1px solid rgb(17 17 17 / 60%);
+    padding: 25px 0;
+  }
+
+  &__sub-content {
+    @include flex-all-sb;
+  }
+
+  &__sub-wrapper {
+    @include flex-v-center;
+
+    gap: 15px;
+  }
+}

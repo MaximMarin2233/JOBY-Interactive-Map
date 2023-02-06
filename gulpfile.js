@@ -253,6 +253,7 @@ const watchFiles = () => {
     server: {
       baseDir: `${buildFolder}`
     },
+    browser: 'chrome'
   });
 
   watch(paths.srcScss, styles);
