@@ -5,4 +5,12 @@
   font-weight: 400;
   font-size: 15px;
   color: var(--dark-color);
+  transition:
+    transform 0.3s ease-in-out,
+    color 0.3s ease-in-out,
+    background-color 0.3s ease-in-out;
+
+  &--animation--head-shake {
+    animation: headShake 3s infinite;
+  }
 }

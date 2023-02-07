@@ -1,0 +1,31 @@
+@keyframes headShake {
+  0% {
+    -webkit-transform: translateX(0);
+    transform: translateX(0);
+  }
+
+  1.5% {
+    -webkit-transform: translateX(-6px) rotateY(-9deg);
+    transform: translateX(-6px) rotateY(-9deg);
+  }
+
+  4.5% {
+    -webkit-transform: translateX(5px) rotateY(7deg);
+    transform: translateX(5px) rotateY(7deg);
+  }
+
+  7.5% {
+    -webkit-transform: translateX(-3px) rotateY(-5deg);
+    transform: translateX(-3px) rotateY(-5deg);
+  }
+
+  11% {
+    -webkit-transform: translateX(2px) rotateY(3deg);
+    transform: translateX(2px) rotateY(3deg);
+  }
+
+  12.5% {
+    -webkit-transform: translateX(0);
+    transform: translateX(0);
+  }
+}

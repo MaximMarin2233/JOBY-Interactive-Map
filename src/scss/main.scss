@@ -7,7 +7,11 @@
 // подключения компонентов страницы
 
 // малые компоненты
+@import "./components/animations";
 @import "./components/header";
 @import "./components/btn";
 
 // большие компоненты
+
+// media запросы
+@import "media";

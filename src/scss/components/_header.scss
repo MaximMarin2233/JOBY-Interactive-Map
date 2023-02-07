@@ -4,7 +4,7 @@
 
   &__sub {
     border-bottom: 1px solid rgb(17 17 17 / 60%);
-    padding: 25px 0;
+    padding: 20px 0;
   }
 
   &__sub-content {
@@ -15,5 +15,13 @@
     @include flex-v-center;
 
     gap: 15px;
+  }
+
+  &__main {
+    padding: 20px 0;
+  }
+
+  &__main-content {
+    @include flex-all-sb;
   }
 }

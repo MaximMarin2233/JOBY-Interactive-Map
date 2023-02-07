@@ -1,0 +1,16 @@
+@media (hover: hover) and (pointer: fine) {
+  .btn {
+    &:hover {
+      color: var(--light-color);
+      background-color: var(--dark-color);
+      transform: translateY(-3px);
+      animation-play-state: paused;
+    }
+
+    &--animation--head-shake {
+      &:hover {
+        transform: none;
+      }
+    }
+  }
+}
