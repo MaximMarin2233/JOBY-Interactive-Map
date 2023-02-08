@@ -13,4 +13,10 @@
   &--animation--head-shake {
     animation: headShake 3s infinite;
   }
+
+  &--dark {
+    font-size: 13px;
+    color: var(--light-color);
+    background-color: var(--dark-color);
+  }
 }

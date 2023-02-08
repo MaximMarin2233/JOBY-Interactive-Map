@@ -9,6 +9,7 @@ html {
 }
 
 .page {
+  overflow: hidden;
   height: 100%;
   font-family: var(--font-family, sans-serif);
   -webkit-text-size-adjust: 100%;
@@ -16,8 +17,8 @@ html {
 
 .page__body {
   margin: 0;
+  height: 100%;
   min-width: 320px;
-  min-height: 100%;
   font-size: 16px;
 }
 
@@ -32,7 +33,18 @@ a {
 }
 
 .site-container {
-  overflow: hidden; // если используете на сайте position: sticky - уберите эту настройку
+  @include flex;
+
+  position: relative;
+  flex-direction: column;
+  overflow: hidden;
+  height: 100%;
+}
+
+.main {
+  @include flex;
+
+  flex-grow: 1;
 }
 
 .is-hidden {
@@ -104,4 +116,13 @@ a {
 
 .page--ios .dis-scroll {
   position: relative;
+}
+
+.joby-map {
+  width: 100%;
+  height: 100%;
+}
+
+[class*="copyrights-promo"] {
+  display: none !important;
 }
