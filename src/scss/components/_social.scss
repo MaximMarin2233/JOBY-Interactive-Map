@@ -1,0 +1,24 @@
+.social {
+  @include flex-v-center;
+
+  gap: 10px;
+
+  &__item {
+  }
+
+  &__link {
+    @include bg-cover;
+
+    display: block;
+    width: 30px;
+    height: 30px;
+
+    &--tg {
+      background-image: url("../img/footer/telegram-icon.svg");
+    }
+
+    &--vk {
+      background-image: url("../img/footer/vk-icon.svg");
+    }
+  }
+}
