@@ -34,6 +34,16 @@ export function map() {
     map.controls.remove('typeSelector');
     map.controls.remove('fullscreenControl');
     map.controls.remove('rulerControl');
+
+    const loader = document.querySelector('.loader');
+
+    loader.remove();
+    // setTimeout(() => {
+    //   loader.classList.add('loader--hidden');
+    // }, 2000);
+    // setTimeout(() => {
+    //   loader.remove();
+    // }, 2500);
   }
 
   ymaps.ready(init);

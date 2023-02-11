@@ -12,4 +12,12 @@
       }
     }
   }
+
+  .social {
+    &__link {
+      &:hover {
+        transform: translateY(-3px);
+      }
+    }
+  }
 }

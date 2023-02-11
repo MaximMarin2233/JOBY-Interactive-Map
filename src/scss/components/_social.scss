@@ -3,22 +3,20 @@
 
   gap: 10px;
 
-  &__item {
-  }
-
   &__link {
     @include bg-cover;
 
     display: block;
     width: 30px;
     height: 30px;
+    transition: transform 0.3s ease-in-out;
 
     &--tg {
-      background-image: url("../img/footer/telegram-icon.svg");
+      background-image: url("../img/footer/footer-telegram-icon.svg");
     }
 
     &--vk {
-      background-image: url("../img/footer/vk-icon.svg");
+      background-image: url("../img/footer/footer-vk-icon.svg");
     }
   }
 }

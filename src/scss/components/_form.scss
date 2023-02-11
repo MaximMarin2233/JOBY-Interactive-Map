@@ -1,0 +1,67 @@
+.form {
+  @include flex;
+
+  flex-direction: column;
+  gap: 30px;
+
+  &__content {
+    @include flex;
+
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  &__input-wrapper {
+    position: relative;
+
+    &::before {
+      @include bg-cover;
+
+      content: "";
+      position: absolute;
+      left: 20px;
+      top: 50%;
+      width: 24px;
+      height: 24px;
+      transform: translateY(-50%);
+      pointer-events: none;
+    }
+
+    @for $i from 1 through 3 {
+      &--#{$i} {
+        &::before {
+          background-image: url("../img/modal/modal-icon-#{$i}.svg");
+        }
+      }
+    }
+  }
+
+  &__input {
+    display: block;
+    border: 1px solid var(--dark-color);
+    border-radius: 15px;
+    padding: 18px 20px;
+    padding-left: 54px;
+    width: 100%;
+  }
+
+  &__text-wrapper {
+    @include flex-all-sb;
+
+    gap: 15px;
+  }
+
+  &__label,
+  &__content-btn {
+    font-weight: 400;
+    font-size: 15px;
+    color: var(--grey-color);
+  }
+
+  &__input,
+  &__input::placeholder {
+    font-weight: 400;
+    font-size: 15px;
+    color: var(--dark-color);
+  }
+}

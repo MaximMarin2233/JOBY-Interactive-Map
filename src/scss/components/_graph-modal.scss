@@ -1,0 +1,31 @@
+.graph-modal {
+  &__close {
+    @include bg-cover;
+
+    position: static;
+    width: 24px;
+    height: 24px;
+    background-image: url("../img/modal/modal-close.svg");
+  }
+
+  &__title-wrapper {
+    @include flex-all-sb;
+
+    margin-bottom: 30px;
+  }
+
+  &__title {
+    margin: 0;
+    font-weight: 500;
+    font-size: 20px;
+    text-transform: uppercase;
+    color: #111;
+  }
+
+  &__container {
+    padding: 40px;
+    width: 100%;
+    max-width: 450px;
+    box-shadow: 0 4px 150px rgba(17 17 17 / 50%);
+  }
+}

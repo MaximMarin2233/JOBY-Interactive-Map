@@ -1,5 +1,5 @@
 .btn {
-  border: 1px solid var(--dark-color);
+  border: 1px solid currentcolor;
   border-radius: 15px;
   padding: 12px 20px;
   font-weight: 400;
@@ -10,6 +10,10 @@
     color 0.3s ease-in-out,
     background-color 0.3s ease-in-out;
 
+  &.focus-visible {
+    box-shadow: 0 0 15px rgba(17 17 17 / 20%);
+  }
+
   &--animation--head-shake {
     animation: headShake 3s infinite;
   }
@@ -18,5 +22,13 @@
     font-size: 13px;
     color: var(--light-color);
     background-color: var(--dark-color);
+  }
+
+  &--bold {
+    border: 2px solid currentcolor;
+    font-weight: 500;
+    font-size: 20px;
+    text-transform: uppercase;
+    color: var(--dark-color);
   }
 }

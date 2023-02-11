@@ -1,0 +1,83 @@
+<div class="graph-modal">
+  <div class="graph-modal__container" role="dialog" aria-modal="true" data-graph-target="btn-sign-up">
+    <div class="graph-modal__content">
+      <div class="graph-modal__title-wrapper">
+        <h2 class="graph-modal__title">Регистрация</h2>
+        <button class="btn-reset js-modal-close graph-modal__close" aria-label="Закрыть модальное окно"></button>
+      </div>
+      <form class="form" action="#">
+        <div class="form__content">
+          <label class="form__label" for="sign-up-email">Ваш E-mail:</label>
+          <div class="form__input-wrapper form__input-wrapper--1">
+            <input class="input-reset form__input" id="sign-up-email" type="email" name="email" placeholder="E-mail">
+          </div>
+          <label class="form__label" for="sign-up-password">Придумайте пароль:</label>
+          <div class="form__input-wrapper form__input-wrapper--3">
+            <input class="input-reset form__input" id="sign-up-password" type="password" name="password" placeholder="Пароль">
+          </div>
+          <label class="form__label" for="sign-up-password-repeat">Повторите ввод пароля:</label>
+          <div class="form__input-wrapper form__input-wrapper--3">
+            <input class="input-reset form__input" id="sign-up-password-repeat" type="password" name="password-repeat" placeholder="Пароль">
+          </div>
+        </div>
+        <button class="btn-reset btn btn--bold form__btn">Зарегистрироваться</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="graph-modal__container" role="dialog" aria-modal="true" data-graph-target="btn-sign-in">
+    <div class="graph-modal__content">
+      <div class="graph-modal__title-wrapper">
+        <h2 class="graph-modal__title">Вход</h2>
+        <button class="btn-reset js-modal-close graph-modal__close" aria-label="Закрыть модальное окно"></button>
+      </div>
+      <form class="form" action="#">
+        <div class="form__content">
+          <div class="form__text-wrapper">
+            <label class="form__label" for="sign-up-email">Введите ваш E-mail:</label>
+            <button class="btn-reset form__content-btn" type="button" data-graph-path="btn-sign-up">Регистрация</button>
+          </div>
+          <div class="form__input-wrapper form__input-wrapper--1">
+            <input class="input-reset form__input" id="sign-up-email" type="email" name="email" placeholder="E-mail">
+          </div>
+          <div class="form__text-wrapper">
+            <label class="form__label" for="sign-up-password">Введите ваш пароль:</label>
+            <button class="btn-reset form__content-btn" type="button" data-graph-path="password-forget">Забыли пароль?</button>
+          </div>
+          <div class="form__input-wrapper form__input-wrapper--3">
+            <input class="input-reset form__input" id="sign-up-password" type="password" name="password" placeholder="Пароль">
+          </div>
+        </div>
+        <button class="btn-reset btn btn--bold form__btn">Войти</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="graph-modal__container" role="dialog" aria-modal="true" data-graph-target="password-forget">
+    <div class="graph-modal__content">
+      <div class="graph-modal__title-wrapper">
+        <h2 class="graph-modal__title">Востановление пароля</h2>
+        <button class="btn-reset js-modal-close graph-modal__close" aria-label="Закрыть модальное окно"></button>
+      </div>
+      <form class="form" action="#">
+        <div class="form__content">
+          <label class="form__label" for="sign-up-email">Ваш E-mail:</label>
+          <div class="form__input-wrapper form__input-wrapper--1">
+            <input class="input-reset form__input" id="sign-up-email" type="email" name="email" placeholder="E-mail">
+          </div>
+        </div>
+        <button class="btn-reset btn btn--bold form__btn">Восстановить</button>
+      </form>
+    </div>
+  </div>
+
+</div>
+
+<div class="loader">
+  <div class="loader__text-wrapper">
+    <span class="loader__text" style="--delay: 0s;">J</span>
+    <span class="loader__text" style="--delay: 100ms;">o</span>
+    <span class="loader__text" style="--delay: 200ms;">b</span>
+    <span class="loader__text" style="--delay: 300ms;">y</span>
+  </div>
+</div>
