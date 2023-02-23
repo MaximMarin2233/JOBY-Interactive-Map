@@ -19,6 +19,8 @@
           <div class="form__input-wrapper form__input-wrapper--3">
             <input class="input-reset form__input" id="sign-up-password-repeat" type="password" name="password-repeat" placeholder="Пароль">
           </div>
+          <div id="captcha1"></div>
+          <div class="graph-modal__captcha-text"></div>
         </div>
         <button class="btn-reset btn btn--bold form__btn">Зарегистрироваться</button>
       </form>
@@ -31,22 +33,24 @@
         <h2 class="graph-modal__title">Вход</h2>
         <button class="btn-reset js-modal-close graph-modal__close" aria-label="Закрыть модальное окно"></button>
       </div>
-      <form class="form" action="#">
+      <form class="form form--sign-in" action="#">
         <div class="form__content">
           <div class="form__text-wrapper">
-            <label class="form__label" for="sign-up-email">Введите ваш E-mail:</label>
+            <label class="form__label" for="sign-in-email">Введите ваш E-mail:</label>
             <button class="btn-reset form__content-btn" type="button" data-graph-path="btn-sign-up">Регистрация</button>
           </div>
           <div class="form__input-wrapper form__input-wrapper--1">
-            <input class="input-reset form__input" id="sign-up-email" type="email" name="email" placeholder="E-mail">
+            <input class="input-reset form__input" id="sign-in-email" type="email" name="email" placeholder="E-mail">
           </div>
           <div class="form__text-wrapper">
-            <label class="form__label" for="sign-up-password">Введите ваш пароль:</label>
+            <label class="form__label" for="sign-in-password">Введите ваш пароль:</label>
             <button class="btn-reset form__content-btn" type="button" data-graph-path="password-forget">Забыли пароль?</button>
           </div>
           <div class="form__input-wrapper form__input-wrapper--3">
-            <input class="input-reset form__input" id="sign-up-password" type="password" name="password" placeholder="Пароль">
+            <input class="input-reset form__input" id="sign-in-password" type="password" name="password" placeholder="Пароль">
           </div>
+          <div id="captcha2"></div>
+          <div class="graph-modal__captcha-text"></div>
         </div>
         <button class="btn-reset btn btn--bold form__btn">Войти</button>
       </form>

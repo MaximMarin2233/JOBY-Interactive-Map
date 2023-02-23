@@ -1,3 +1,5 @@
+import vars from '../_vars';
+
 export function map() {
 
   function init() {
@@ -34,6 +36,15 @@ export function map() {
     map.controls.remove('typeSelector');
     map.controls.remove('fullscreenControl');
     map.controls.remove('rulerControl');
+
+    let captchaKey = '6LfRd5ckAAAAAD1GVeseZJSzlRw21_II9R7QwC7R';
+
+    vars.captcha1 = grecaptcha.render('captcha1', {
+      'sitekey' : captchaKey,
+    });
+    vars.captcha2 = grecaptcha.render('captcha2', {
+      'sitekey' : captchaKey,
+    });
 
     const loader = document.querySelector('.loader');
 

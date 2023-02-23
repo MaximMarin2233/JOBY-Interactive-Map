@@ -1,5 +1,6 @@
 import JustValidate from 'just-validate';
 import GraphModal from 'graph-modal';
+import vars from '../_vars';
 
 export function form() {
   const modal = new GraphModal();
@@ -60,19 +61,17 @@ export function form() {
   ], (ev) => {
     const currentForm = document.querySelector('.form--sign-up');
     const modalContainer = currentForm.closest('.graph-modal__container');
-
-    modalContainer.classList.add('graph-modal__container--anim');
+    const captchaText = currentForm.querySelector('.graph-modal__captcha-text');
 
     const xmlhttp = new XMLHttpRequest();
-
-    const email = currentForm.querySelector('#sign-up-email').value.replace(/<[^>]+>/g,'');
-    const password = currentForm.querySelector('#sign-up-password').value.replace(/<[^>]+>/g,'');
 
     xmlhttp.onreadystatechange = function () {
       if (xmlhttp.readyState === 4) {
         if (xmlhttp.status === 200) {
           setTimeout(() => {
             modalContainer.classList.remove('graph-modal__container--anim');
+            ev.target.reset();
+            grecaptcha.reset(vars.captcha1);
 
             modal.close();
             modal.open('btn-sign-in');
@@ -81,11 +80,67 @@ export function form() {
       }
     }
 
-    xmlhttp.open('post', 'libs/sign-up.php', true);
-    xmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    xmlhttp.send("email=" + encodeURIComponent(email) + "&password=" + encodeURIComponent(password));
+    if(grecaptcha.getResponse(vars.captcha1)) {
+      captchaText.innerHTML = '';
 
-    ev.target.reset();
+      modalContainer.classList.add('graph-modal__container--anim');
+
+      const email = currentForm.querySelector('#sign-up-email').value.replace(/<[^>]+>/g,'');
+      const password = currentForm.querySelector('#sign-up-password').value.replace(/<[^>]+>/g,'');
+
+      xmlhttp.open('post', 'libs/sign-up.php', true);
+      xmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+      xmlhttp.send("email=" + encodeURIComponent(email) + "&password=" + encodeURIComponent(password));
+    } else {
+      captchaText.innerHTML = `
+        <div class="just-validate-error-label" style="color: rgb(184, 17, 17);">Подтвердите что вы не робот</div>
+      `;
+    }
+  });
+
+  validForm('.form--sign-in', [
+    {
+      ruleSelector: '#sign-in-email',
+      rules: [
+        {
+          rule: 'required',
+          errorMessage: 'Введите E-mail!',
+        },
+        {
+          rule: 'email',
+          errorMessage: 'Некорректный E-mail!',
+        },
+      ]
+    },
+    {
+      ruleSelector: '#sign-in-password',
+      rules: [
+        {
+          rule: 'required',
+          errorMessage: 'Введите пароль!',
+        },
+        {
+          rule: 'minLength',
+          value: 5,
+          errorMessage: 'Минимальная длина - 5 символов!',
+        },
+      ]
+    },
+  ], (ev) => {
+    const currentForm = document.querySelector('.form--sign-in');
+    const modalContainer = currentForm.closest('.graph-modal__container');
+    const captchaText = currentForm.querySelector('.graph-modal__captcha-text');
+
+
+    if(grecaptcha.getResponse(vars.captcha2)) {
+      captchaText.innerHTML = '';
+
+
+    } else {
+      captchaText.innerHTML = `
+        <div class="just-validate-error-label" style="color: rgb(184, 17, 17);">Подтвердите что вы не робот</div>
+      `;
+    }
   });
 
 }
