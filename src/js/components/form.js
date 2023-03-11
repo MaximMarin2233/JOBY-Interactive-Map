@@ -87,10 +87,11 @@ export function form() {
 
       const email = currentForm.querySelector('#sign-up-email').value.replace(/<[^>]+>/g,'');
       const password = currentForm.querySelector('#sign-up-password').value.replace(/<[^>]+>/g,'');
+      const mark = 'no';
 
       xmlhttp.open('post', 'libs/sign-up.php', true);
       xmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-      xmlhttp.send("email=" + encodeURIComponent(email) + "&password=" + encodeURIComponent(password));
+      xmlhttp.send("email=" + encodeURIComponent(email) + "&password=" + encodeURIComponent(password) + "&mark=" + encodeURIComponent(mark));
     } else {
       captchaText.innerHTML = `
         <div class="just-validate-error-label" style="color: rgb(184, 17, 17);">Подтвердите что вы не робот</div>
@@ -131,10 +132,41 @@ export function form() {
     const modalContainer = currentForm.closest('.graph-modal__container');
     const captchaText = currentForm.querySelector('.graph-modal__captcha-text');
 
+    let count = 0;
+
+    const xmlhttp = new XMLHttpRequest();
 
     if(grecaptcha.getResponse(vars.captcha2)) {
       captchaText.innerHTML = '';
 
+      modalContainer.classList.add('graph-modal__container--anim');
+
+      const email = currentForm.querySelector('#sign-in-email').value.replace(/<[^>]+>/g,'');
+      const password = currentForm.querySelector('#sign-in-password').value.replace(/<[^>]+>/g,'');
+
+
+      xmlhttp.open('post', 'libs/sign-in.php', true);
+      xmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+      xmlhttp.send('count=' + count + "&email=" + encodeURIComponent(email) + "&password=" + encodeURIComponent(password));
+
+      xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState == 4) {
+          if (xmlhttp.status == 200) {
+            var data = xmlhttp.responseText;
+            if (data != 'empty') {
+              data = JSON.parse(data);
+              setTimeout(() => {
+                console.log(data);
+
+                modalContainer.classList.remove('graph-modal__container--anim');
+                ev.target.reset();
+                grecaptcha.reset(vars.captcha2);
+
+              }, 2000);
+            }
+          }
+        }
+      };
 
     } else {
       captchaText.innerHTML = `
