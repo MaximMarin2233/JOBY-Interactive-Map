@@ -19,6 +19,24 @@
     gap: 15px;
   }
 
+  &__user {
+    position: relative;
+    padding-left: 45px;
+
+    &::before {
+      @include bg-cover;
+
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 50%;
+      width: 35px;
+      height: 31px;
+      background-image: url("../img/header/header-user.svg");
+      transform: translateY(-50%);
+    }
+  }
+
   &__main {
     padding: 20px 0;
   }
