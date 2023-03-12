@@ -1,13 +1,12 @@
 <?php
   header("Content-Type: text/html; charset=UTF-8");
 
-  $count = $_POST['count'];
   $email = $_POST['email'];
   $password = $_POST['password'];
 
   $mysqli = new Mysqli('localhost', 'root', '', 'joby');
   $mysqli->query("SET NAMES utf8");
-  $result = $mysqli->query("SELECT email, password FROM user WHERE id > $count");
+  $result = $mysqli->query("SELECT email, password FROM user WHERE id > 0");
   $signIn = false;
 
   while($row = $result->fetch_assoc()) {

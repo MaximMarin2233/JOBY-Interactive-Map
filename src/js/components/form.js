@@ -132,8 +132,6 @@ export function form() {
     const modalContainer = currentForm.closest('.graph-modal__container');
     const captchaText = currentForm.querySelector('.graph-modal__captcha-text');
 
-    let count = 0;
-
     const xmlhttp = new XMLHttpRequest();
 
     if(grecaptcha.getResponse(vars.captcha2)) {
@@ -147,22 +145,45 @@ export function form() {
 
       xmlhttp.open('post', 'libs/sign-in.php', true);
       xmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-      xmlhttp.send('count=' + count + "&email=" + encodeURIComponent(email) + "&password=" + encodeURIComponent(password));
+      xmlhttp.send("email=" + encodeURIComponent(email) + "&password=" + encodeURIComponent(password));
 
       xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState == 4) {
           if (xmlhttp.status == 200) {
             var data = xmlhttp.responseText;
             if (data != 'empty') {
+
               data = JSON.parse(data);
               setTimeout(() => {
-                console.log(data);
-
                 modalContainer.classList.remove('graph-modal__container--anim');
-                ev.target.reset();
                 grecaptcha.reset(vars.captcha2);
 
+
+                if(data) {
+                  ev.target.reset();
+                  grecaptcha.reset(vars.captcha2);
+                  modal.close();
+
+                  document.querySelector('[data-content]').innerHTML = `
+                    <div class="header__sub-wrapper">
+                      <div class="header__user">${email}</div>
+                      <button class="btn-reset btn header__sub-btn" data-graph-path="quit...">Выход</button>
+                    </div>
+
+                    <button class="btn-reset btn btn--animation--head-shake header__sub-btn" data-graph-path="btn-sign-in">Разместить заказ</button>
+                  `;
+
+                  localStorage.setItem('userInf', JSON.stringify({
+                    email: email,
+                    password: password
+                  }));
+                } else {
+                  captchaText.innerHTML = `
+                    <div class="just-validate-error-label" style="color: rgb(184, 17, 17);">Неправильный логин или пароль</div>
+                  `;
+                }
               }, 2000);
+
             }
           }
         }
