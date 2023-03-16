@@ -2,6 +2,8 @@ import JustValidate from 'just-validate';
 import GraphModal from 'graph-modal';
 import vars from '../_vars';
 
+import { checkUser } from "./checkUser";
+
 export function form() {
   const modal = new GraphModal();
 
@@ -132,8 +134,6 @@ export function form() {
     const modalContainer = currentForm.closest('.graph-modal__container');
     const captchaText = currentForm.querySelector('.graph-modal__captcha-text');
 
-    const xmlhttp = new XMLHttpRequest();
-
     if(grecaptcha.getResponse(vars.captcha2)) {
       captchaText.innerHTML = '';
 
@@ -142,52 +142,41 @@ export function form() {
       const email = currentForm.querySelector('#sign-in-email').value.replace(/<[^>]+>/g,'');
       const password = currentForm.querySelector('#sign-in-password').value.replace(/<[^>]+>/g,'');
 
+      checkUser(email, password, (data) => {
+        setTimeout(() => {
+          modalContainer.classList.remove('graph-modal__container--anim');
+          grecaptcha.reset(vars.captcha2);
 
-      xmlhttp.open('post', 'libs/sign-in.php', true);
-      xmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-      xmlhttp.send("email=" + encodeURIComponent(email) + "&password=" + encodeURIComponent(password));
+          if(data) {
+            ev.target.reset();
+            grecaptcha.reset(vars.captcha2);
+            modal.close();
 
-      xmlhttp.onreadystatechange = function () {
-        if (xmlhttp.readyState == 4) {
-          if (xmlhttp.status == 200) {
-            var data = xmlhttp.responseText;
-            if (data != 'empty') {
+            document.querySelector('[data-content]').innerHTML = `
+              <div class="header__sub-wrapper">
+                <div class="header__user">${email}</div>
+                <button class="btn-reset btn header__sub-btn" data-btn-quit>Выход</button>
+              </div>
 
-              data = JSON.parse(data);
-              setTimeout(() => {
-                modalContainer.classList.remove('graph-modal__container--anim');
-                grecaptcha.reset(vars.captcha2);
+              <button class="btn-reset btn btn--animation--head-shake header__sub-btn" data-graph-path="btn-sign-in">Разместить заказ</button>
+            `;
 
+            document.querySelector('[data-btn-quit]').addEventListener('click', () => {
+              localStorage.setItem('userInf', '');
+              location.reload();
+            });
 
-                if(data) {
-                  ev.target.reset();
-                  grecaptcha.reset(vars.captcha2);
-                  modal.close();
-
-                  document.querySelector('[data-content]').innerHTML = `
-                    <div class="header__sub-wrapper">
-                      <div class="header__user">${email}</div>
-                      <button class="btn-reset btn header__sub-btn" data-graph-path="quit...">Выход</button>
-                    </div>
-
-                    <button class="btn-reset btn btn--animation--head-shake header__sub-btn" data-graph-path="btn-sign-in">Разместить заказ</button>
-                  `;
-
-                  localStorage.setItem('userInf', JSON.stringify({
-                    email: email,
-                    password: password
-                  }));
-                } else {
-                  captchaText.innerHTML = `
-                    <div class="just-validate-error-label" style="color: rgb(184, 17, 17);">Неправильный логин или пароль</div>
-                  `;
-                }
-              }, 2000);
-
-            }
+            localStorage.setItem('userInf', JSON.stringify({
+              email: email,
+              password: password
+            }));
+          } else {
+            captchaText.innerHTML = `
+              <div class="just-validate-error-label" style="color: rgb(184, 17, 17);">Неправильный логин или пароль</div>
+            `;
           }
-        }
-      };
+        }, 2000);
+      });
 
     } else {
       captchaText.innerHTML = `
