@@ -3,6 +3,7 @@ import GraphModal from 'graph-modal';
 import vars from '../_vars';
 
 import { checkUser } from "./checkUser";
+import { loginUser } from "./loginUser";
 
 export function form() {
   const modal = new GraphModal();
@@ -152,19 +153,7 @@ export function form() {
             grecaptcha.reset(vars.captcha2);
             modal.close();
 
-            document.querySelector('[data-content]').innerHTML = `
-              <div class="header__sub-wrapper">
-                <div class="header__user">${email}</div>
-                <button class="btn-reset btn header__sub-btn" data-btn-quit>Выход</button>
-              </div>
-
-              <button class="btn-reset btn btn--animation--head-shake header__sub-btn" data-graph-path="btn-sign-in">Разместить заказ</button>
-            `;
-
-            document.querySelector('[data-btn-quit]').addEventListener('click', () => {
-              localStorage.setItem('userInf', '');
-              location.reload();
-            });
+            loginUser(email);
 
             localStorage.setItem('userInf', JSON.stringify({
               email: email,
