@@ -1,7 +1,7 @@
-export function checkUser(email, password, action) {
+export function checkUser(path, email, password, action) {
   const xmlhttp = new XMLHttpRequest();
 
-  xmlhttp.open('post', 'libs/sign-in.php', true);
+  xmlhttp.open('post', path, true);
       xmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
       xmlhttp.send("email=" + encodeURIComponent(email) + "&password=" + encodeURIComponent(password));
 

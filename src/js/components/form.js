@@ -4,6 +4,7 @@ import vars from '../_vars';
 
 import { checkUser } from "./checkUser";
 import { loginUser } from "./loginUser";
+import { addToLS } from "./addToLS";
 
 export function form() {
   const modal = new GraphModal();
@@ -68,21 +69,6 @@ export function form() {
 
     const xmlhttp = new XMLHttpRequest();
 
-    xmlhttp.onreadystatechange = function () {
-      if (xmlhttp.readyState === 4) {
-        if (xmlhttp.status === 200) {
-          setTimeout(() => {
-            modalContainer.classList.remove('graph-modal__container--anim');
-            ev.target.reset();
-            grecaptcha.reset(vars.captcha1);
-
-            modal.close();
-            modal.open('btn-sign-in');
-          }, 2000);
-        }
-      }
-    }
-
     if(grecaptcha.getResponse(vars.captcha1)) {
       captchaText.innerHTML = '';
 
@@ -99,6 +85,21 @@ export function form() {
       captchaText.innerHTML = `
         <div class="just-validate-error-label" style="color: rgb(184, 17, 17);">Подтвердите что вы не робот</div>
       `;
+    }
+
+    xmlhttp.onreadystatechange = function () {
+      if (xmlhttp.readyState === 4) {
+        if (xmlhttp.status === 200) {
+          setTimeout(() => {
+            modalContainer.classList.remove('graph-modal__container--anim');
+            ev.target.reset();
+            grecaptcha.reset(vars.captcha1);
+
+            modal.close();
+            modal.open('btn-sign-in');
+          }, 2000);
+        }
+      }
     }
   });
 
@@ -143,22 +144,19 @@ export function form() {
       const email = currentForm.querySelector('#sign-in-email').value.replace(/<[^>]+>/g,'');
       const password = currentForm.querySelector('#sign-in-password').value.replace(/<[^>]+>/g,'');
 
-      checkUser(email, password, (data) => {
+      checkUser('libs/sign-in.php', email, password, (data) => {
         setTimeout(() => {
           modalContainer.classList.remove('graph-modal__container--anim');
           grecaptcha.reset(vars.captcha2);
 
-          if(data) {
+          if(data.response) {
             ev.target.reset();
             grecaptcha.reset(vars.captcha2);
             modal.close();
 
             loginUser(email);
 
-            localStorage.setItem('userInf', JSON.stringify({
-              email: email,
-              password: password
-            }));
+            addToLS(email, data.userPassword);
           } else {
             captchaText.innerHTML = `
               <div class="just-validate-error-label" style="color: rgb(184, 17, 17);">Неправильный логин или пароль</div>

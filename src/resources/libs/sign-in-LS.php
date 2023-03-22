@@ -14,8 +14,7 @@
   while($row = $result->fetch_assoc()) {
       $object = json_decode(json_encode($row), FALSE);
 
-      if($object->email == $email and password_verify($password, $object->password)) {
-        $final["userPassword"] = password_hash($object->password, PASSWORD_BCRYPT);;
+      if($object->email == $email and password_verify($object->password, $password)) {
         $final["response"] = true;
       }
   }

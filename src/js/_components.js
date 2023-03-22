@@ -18,8 +18,8 @@ window.addEventListener('DOMContentLoaded', () => {
   }
 
   if(user) {
-    checkUser(user.email, user.password, (data) => {
-      if(data) {
+    checkUser('libs/sign-in-LS.php', user.email, user.password, (data) => {
+      if(data.response) {
         loginUser(user.email);
       }
     });
