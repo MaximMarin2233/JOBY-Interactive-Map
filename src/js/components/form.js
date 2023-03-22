@@ -81,25 +81,31 @@ export function form() {
       xmlhttp.open('post', 'libs/sign-up.php', true);
       xmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
       xmlhttp.send("email=" + encodeURIComponent(email) + "&password=" + encodeURIComponent(password) + "&mark=" + encodeURIComponent(mark));
+
+      xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState === 4) {
+          if (xmlhttp.status === 200) {
+            checkUser('libs/sign-in.php', email, password, (data) => {
+              setTimeout(() => {
+                modalContainer.classList.remove('graph-modal__container--anim');
+                ev.target.reset();
+                grecaptcha.reset(vars.captcha1);
+
+                modal.close();
+
+                if(data.response) {
+                  addToLS(email, data.userPassword);
+                  location.reload();
+                }
+              }, 2000);
+            });
+          }
+        }
+      }
     } else {
       captchaText.innerHTML = `
         <div class="just-validate-error-label" style="color: rgb(184, 17, 17);">Подтвердите что вы не робот</div>
       `;
-    }
-
-    xmlhttp.onreadystatechange = function () {
-      if (xmlhttp.readyState === 4) {
-        if (xmlhttp.status === 200) {
-          setTimeout(() => {
-            modalContainer.classList.remove('graph-modal__container--anim');
-            ev.target.reset();
-            grecaptcha.reset(vars.captcha1);
-
-            modal.close();
-            modal.open('btn-sign-in');
-          }, 2000);
-        }
-      }
     }
   });
 
@@ -154,9 +160,8 @@ export function form() {
             grecaptcha.reset(vars.captcha2);
             modal.close();
 
-            loginUser(email);
-
             addToLS(email, data.userPassword);
+            location.reload();
           } else {
             captchaText.innerHTML = `
               <div class="just-validate-error-label" style="color: rgb(184, 17, 17);">Неправильный логин или пароль</div>
