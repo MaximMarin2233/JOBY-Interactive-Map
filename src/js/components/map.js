@@ -19,12 +19,14 @@ export function map() {
         }, {
           searchControlProvider: 'yandex#search'
         });
+
       },
       function(err) {
         createMap({
           center: [55.75987793362054,37.619763925026476],
           zoom: 11
         });
+
       }
     );
   }
@@ -55,6 +57,80 @@ export function map() {
     // setTimeout(() => {
     //   loader.remove();
     // }, 2500);
+
+
+
+
+    var suggestView = new ymaps.SuggestView('create-order-address');
+    var request = document.querySelector('#create-order-address');
+
+    document.querySelector('[data-create-order-btn]').addEventListener('click', (e) => {
+      if(request.value.length > 0) {
+        geocode();
+      } else {
+        showError('Введите адрес');
+      }
+    });
+
+    function geocode() {
+        ymaps.geocode(request.value).then(function (res) {
+            var obj = res.geoObjects.get(0),
+                error, hint;
+
+            if (obj) {
+                switch (obj.properties.get('metaDataProperty.GeocoderMetaData.precision')) {
+                    case 'exact':
+                        break;
+                    case 'number':
+                    case 'near':
+                    case 'range':
+                        error = 'Неточный адрес, требуется уточнение';
+                        hint = 'Уточните номер дома';
+                        break;
+                    case 'street':
+                        error = 'Неполный адрес, требуется уточнение';
+                        hint = 'Уточните номер дома';
+                        break;
+                    case 'other':
+                    default:
+                        error = 'Неточный адрес, требуется уточнение';
+                        hint = 'Уточните адрес';
+                }
+            } else {
+                error = 'Адрес не найден';
+                hint = 'Уточните адрес';
+            }
+
+            // Если геокодер возвращает пустой массив или неточный результат, то показываем ошибку.
+            if (error) {
+                showError(error);
+            } else {
+                showResult(obj);
+            }
+        }, function (e) {
+            console.log(e)
+        })
+
+    }
+    function showResult(obj) {
+        if(obj.getCountry() == 'Россия') {
+          document.querySelector('#create-order-address').classList.remove('input_error');
+          document.querySelector('#notice').textContent = '';
+        } else {
+          showError('Страна должна быть Россия');
+        }
+
+        console.log(obj.geometry.getCoordinates());
+
+        // var address = [obj.getCountry(), obj.getAddressLine()].join(', ');
+
+    }
+
+    function showError(message) {
+        document.querySelector('#notice').textContent = message;
+        document.querySelector('#create-order-address').classList.add('input_error');
+    }
+
   }
 
   ymaps.ready(init);
