@@ -29,6 +29,17 @@ export function map() {
 
       }
     );
+
+    setTimeout(() => {
+      let loader = document.querySelector('.loader');
+
+      if(loader) {
+        createMap({
+          center: [55.75987793362054,37.619763925026476],
+          zoom: 11
+        });
+      }
+    }, 6000);
   }
 
   function createMap(obj1, obj2) {
