@@ -129,6 +129,8 @@ export function map() {
           document.querySelector('#notice').textContent = '';
         } else {
           showError('Страна должна быть Россия');
+
+          return;
         }
 
         console.log(obj.geometry.getCoordinates());
