@@ -1,5 +1,7 @@
 import vars from '../_vars';
 
+import { checkUser } from "./checkUser";
+
 export function map() {
 
   function init() {
@@ -76,11 +78,30 @@ export function map() {
     var request = document.querySelector('#create-order-address');
 
     document.querySelector('[data-create-order-btn]').addEventListener('click', (e) => {
-      if(request.value.length > 0) {
-        geocode();
-      } else {
-        showError('Введите адрес');
+      let user;
+
+      try {
+        user = JSON.parse(localStorage.getItem('userInf'));
+      } catch (err) {
+        user = false;
       }
+
+      if(user) {
+        checkUser('libs/sign-in-LS.php', user.email, user.password, (data) => {
+          if(data.response) {
+            if(request.value.length > 0) {
+              geocode();
+            } else {
+              showError('Введите адрес');
+            }
+          } else {
+            location.reload();
+          }
+        });
+      } else {
+        showError('Вы не авторизованы!');
+      }
+
     });
 
     function geocode() {
