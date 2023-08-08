@@ -64,12 +64,13 @@
         <h2 class="graph-modal__title">Востановление пароля</h2>
         <button class="btn-reset js-modal-close graph-modal__close" aria-label="Закрыть модальное окно"></button>
       </div>
-      <form class="form" action="#">
+      <form class="form form--password-reset" action="#">
         <div class="form__content">
           <label class="form__label" for="sign-up-email">Ваш E-mail:</label>
           <div class="form__input-wrapper form__input-wrapper--1">
-            <input class="input-reset form__input" id="sign-up-email" type="email" name="email" placeholder="E-mail">
+            <input class="input-reset form__input" id="password-reset-email" type="email" name="email" placeholder="E-mail">
           </div>
+          <div class="graph-modal__captcha-text"></div>
         </div>
         <button class="btn-reset btn btn--bold form__btn">Восстановить</button>
       </form>

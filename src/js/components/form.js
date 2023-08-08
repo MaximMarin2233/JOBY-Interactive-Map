@@ -5,6 +5,7 @@ import vars from '../_vars';
 import { checkUser } from "./checkUser";
 import { loginUser } from "./loginUser";
 import { addToLS } from "./addToLS";
+import { checkEmail } from "./checkEmail";
 
 export function form() {
   const modal = new GraphModal();
@@ -175,6 +176,51 @@ export function form() {
         <div class="just-validate-error-label" style="color: rgb(184, 17, 17);">Подтвердите что вы не робот</div>
       `;
     }
+  });
+
+  validForm('.form--password-reset', [
+    {
+      ruleSelector: '#password-reset-email',
+      rules: [
+        {
+          rule: 'required',
+          errorMessage: 'Введите E-mail!',
+        },
+        {
+          rule: 'email',
+          errorMessage: 'Некорректный E-mail!',
+        },
+      ]
+    },
+  ], (ev) => {
+    const currentForm = document.querySelector('.form--password-reset');
+    const modalContainer = currentForm.closest('.graph-modal__container');
+    const captchaText = currentForm.querySelector('.graph-modal__captcha-text');
+
+    const email = currentForm.querySelector('#password-reset-email').value.replace(/<[^>]+>/g,'');
+
+    modalContainer.classList.add('graph-modal__container--anim');
+
+
+    checkEmail('libs/sign-in.php', email, (data) => {
+      // setTimeout(() => {
+      //   modalContainer.classList.remove('graph-modal__container--anim');
+      //   grecaptcha.reset(vars.captcha2);
+
+      //   if(data.response) {
+      //     ev.target.reset();
+      //     grecaptcha.reset(vars.captcha2);
+      //     modal.close();
+
+      //     addToLS(email, data.userPassword);
+      //     location.reload();
+      //   } else {
+      //     captchaText.innerHTML = `
+      //       <div class="just-validate-error-label" style="color: rgb(184, 17, 17);">Неправильный логин или пароль</div>
+      //     `;
+      //   }
+      // }, 2000);
+    });
   });
 
 }
