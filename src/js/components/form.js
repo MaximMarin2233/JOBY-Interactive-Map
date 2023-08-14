@@ -158,7 +158,6 @@ export function form() {
 
           if(data.response) {
             ev.target.reset();
-            grecaptcha.reset(vars.captcha2);
             modal.close();
 
             addToLS(email, data.userPassword);
@@ -197,30 +196,40 @@ export function form() {
     const modalContainer = currentForm.closest('.graph-modal__container');
     const captchaText = currentForm.querySelector('.graph-modal__captcha-text');
 
-    const email = currentForm.querySelector('#password-reset-email').value.replace(/<[^>]+>/g,'');
+    if(grecaptcha.getResponse(vars.captcha3)) {
+      captchaText.innerHTML = '';
 
-    modalContainer.classList.add('graph-modal__container--anim');
+      modalContainer.classList.add('graph-modal__container--anim');
+
+      const email = currentForm.querySelector('#password-reset-email').value.replace(/<[^>]+>/g,'');
 
 
-    checkEmail('libs/sign-in.php', email, (data) => {
-      // setTimeout(() => {
-      //   modalContainer.classList.remove('graph-modal__container--anim');
-      //   grecaptcha.reset(vars.captcha2);
+      checkEmail('libs/check-email.php', email, (data) => {
+        setTimeout(() => {
+          modalContainer.classList.remove('graph-modal__container--anim');
+          grecaptcha.reset(vars.captcha3);
 
-      //   if(data.response) {
-      //     ev.target.reset();
-      //     grecaptcha.reset(vars.captcha2);
-      //     modal.close();
+          if(data.response) {
+            ev.target.reset();
+            // modal.close();
 
-      //     addToLS(email, data.userPassword);
-      //     location.reload();
-      //   } else {
-      //     captchaText.innerHTML = `
-      //       <div class="just-validate-error-label" style="color: rgb(184, 17, 17);">Неправильный логин или пароль</div>
-      //     `;
-      //   }
-      // }, 2000);
-    });
+            // addToLS(email, data.userPassword);
+            // location.reload();
+            alert('ok!')
+          } else {
+            captchaText.innerHTML = `
+              <div class="just-validate-error-label" style="color: rgb(184, 17, 17);">Введённый почтовый адрес не существует!</div>
+            `;
+          }
+        }, 2000);
+      });
+
+    } else {
+      captchaText.innerHTML = `
+        <div class="just-validate-error-label" style="color: rgb(184, 17, 17);">Подтвердите что вы не робот</div>
+      `;
+    }
+
   });
 
 }

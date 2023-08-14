@@ -60,6 +60,9 @@ export function map() {
     vars.captcha2 = grecaptcha.render('captcha2', {
       'sitekey' : captchaKey,
     });
+    vars.captcha3 = grecaptcha.render('captcha3', {
+      'sitekey' : captchaKey,
+    });
 
     const loader = document.querySelector('.loader');
 
