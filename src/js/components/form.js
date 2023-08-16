@@ -211,11 +211,13 @@ export function form() {
 
           if(data.response) {
             ev.target.reset();
-            // modal.close();
+            
+            modal.close();
+            modal.open('password-forget-code');
+
 
             // addToLS(email, data.userPassword);
             // location.reload();
-            alert('ok!')
           } else {
             captchaText.innerHTML = `
               <div class="just-validate-error-label" style="color: rgb(184, 17, 17);">Введённый почтовый адрес не существует!</div>
