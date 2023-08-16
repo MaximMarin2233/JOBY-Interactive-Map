@@ -78,6 +78,24 @@
     </div>
   </div>
 
+  <div class="graph-modal__container" role="dialog" aria-modal="true" data-graph-target="password-forget-code">
+    <div class="graph-modal__content">
+      <div class="graph-modal__title-wrapper">
+        <h2 class="graph-modal__title">Введите код с почты</h2>
+        <button class="btn-reset js-modal-close graph-modal__close" aria-label="Закрыть модальное окно"></button>
+      </div>
+      <form class="form" action="#">
+        <div class="form__content">
+          <label class="form__label" for="create-order-address">Шестизначный код:</label>
+          <div class="form__input-wrapper">
+            <input class="input-reset form__input form__input--code" type="text" name="code" placeholder="_ _ _  _ _ _">
+          </div>
+        </div>
+        <button class="btn-reset btn btn--bold form__btn" type="button" data-create-order-btn>Подтвердить</button>
+      </form>
+    </div>
+  </div>
+
   <div class="graph-modal__container" role="dialog" aria-modal="true" data-graph-target="btn-create-order">
     <div class="graph-modal__content">
       <div class="graph-modal__title-wrapper">

@@ -46,6 +46,16 @@
     &.input_error {
       border-color: red;
     }
+
+    &--code {
+      border: none;
+      text-align: center;
+      padding-left: 20px;
+
+      &:focus {
+        outline: none;
+      }
+    }
   }
 
   &__text-wrapper {
@@ -66,5 +76,10 @@
     font-weight: 400;
     font-size: 15px;
     color: var(--dark-color);
+  }
+
+  &__input--code,
+  &__input--code::placeholder {
+    font-size: 30px;
   }
 }
