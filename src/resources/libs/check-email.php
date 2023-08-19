@@ -5,7 +5,7 @@
 
   $mysqli = new Mysqli('localhost', 'root', '', 'joby');
   $mysqli->query("SET NAMES utf8");
-  $result = $mysqli->query("SELECT email FROM user WHERE id > 0");
+  $result = $mysqli->query("SELECT id, email FROM user WHERE id > 0");
   $final = array(
     "response" => false,
   );
@@ -15,6 +15,15 @@
 
       if($object->email == $email) {
         $final["response"] = true;
+
+        $code = str_pad(rand(0, 999999), 6, '0', STR_PAD_LEFT);
+
+        $mysqli2 = new Mysqli('localhost', 'root', '', 'joby');
+        $mysqli2->query("SET NAMES utf8");
+        $mysqli2->query("UPDATE user SET mark = '$code' WHERE id = $object->id");
+
+
+
       }
   }
 
