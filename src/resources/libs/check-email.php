@@ -20,7 +20,7 @@
 
         $mysqli2 = new Mysqli('localhost', 'root', '', 'joby');
         $mysqli2->query("SET NAMES utf8");
-        $mysqli2->query("UPDATE user SET mark = '$code' WHERE id = $object->id");
+        $mysqli2->query("UPDATE user SET code = '$code' WHERE id = $object->id");
 
 
 

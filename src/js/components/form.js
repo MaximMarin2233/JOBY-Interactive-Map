@@ -78,10 +78,11 @@ export function form() {
       const email = currentForm.querySelector('#sign-up-email').value.replace(/<[^>]+>/g,'');
       const password = currentForm.querySelector('#sign-up-password').value.replace(/<[^>]+>/g,'');
       const mark = 'no';
+      const code = '';
 
       xmlhttp.open('post', 'libs/sign-up.php', true);
       xmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-      xmlhttp.send("email=" + encodeURIComponent(email) + "&password=" + encodeURIComponent(password) + "&mark=" + encodeURIComponent(mark));
+      xmlhttp.send("email=" + encodeURIComponent(email) + "&password=" + encodeURIComponent(password) + "&mark=" + encodeURIComponent(mark) + "&code=" + encodeURIComponent(code));
 
       xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState === 4) {
