@@ -66,7 +66,7 @@
       </div>
       <form class="form form--password-reset" action="#">
         <div class="form__content">
-          <label class="form__label" for="sign-up-email">Ваш E-mail:</label>
+          <label class="form__label" for="password-reset-email">Ваш E-mail:</label>
           <div class="form__input-wrapper form__input-wrapper--1">
             <input class="input-reset form__input" id="password-reset-email" type="email" name="email" placeholder="E-mail">
           </div>
@@ -84,14 +84,17 @@
         <h2 class="graph-modal__title">Введите код с почты</h2>
         <button class="btn-reset js-modal-close graph-modal__close" aria-label="Закрыть модальное окно"></button>
       </div>
-      <form class="form" action="#">
+      <form class="form form--password-code" action="#">
         <div class="form__content">
-          <label class="form__label" for="create-order-address">Шестизначный код:</label>
+          <label class="form__label" for="password-code">Шестизначный код:</label>
           <div class="form__input-wrapper">
-            <input class="input-reset form__input form__input--code" type="text" name="code" placeholder="_ _ _  _ _ _" data-code-mask>
+            <input type="hidden" name="email">
+          </div>
+          <div class="form__input-wrapper">
+            <input class="input-reset form__input form__input--code" id="password-code" type="text" name="code" placeholder="_ _ _  _ _ _" data-code-mask>
           </div>
         </div>
-        <button class="btn-reset btn btn--bold form__btn" type="button" data-create-order-btn>Подтвердить</button>
+        <button class="btn-reset btn btn--bold form__btn">Подтвердить</button>
       </form>
     </div>
   </div>

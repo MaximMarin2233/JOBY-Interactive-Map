@@ -212,10 +212,11 @@ export function form() {
 
           if(data.response) {
             ev.target.reset();
-            
+
             modal.close();
             modal.open('password-forget-code');
 
+            document.querySelector('[data-graph-target="password-forget-code"]').querySelector('[name="email"]').value = email;
 
             // addToLS(email, data.userPassword);
             // location.reload();
@@ -233,6 +234,52 @@ export function form() {
       `;
     }
 
+  });
+
+  validForm('.form--password-code', [
+    {
+      ruleSelector: '#password-code',
+      rules: [
+        {
+          rule: 'required',
+          errorMessage: 'Введите код!',
+        },
+      ]
+    },
+  ], (ev) => {
+    // const currentForm = document.querySelector('.form--password-reset');
+    // const modalContainer = currentForm.closest('.graph-modal__container');
+
+
+    // modalContainer.classList.add('graph-modal__container--anim');
+
+    // const email = currentForm.querySelector('#password-reset-email').value.replace(/<[^>]+>/g,'');
+
+
+    // checkEmail('libs/check-email.php', email, (data) => {
+    //   setTimeout(() => {
+    //     modalContainer.classList.remove('graph-modal__container--anim');
+    //     grecaptcha.reset(vars.captcha3);
+
+    //     if(data.response) {
+    //       ev.target.reset();
+
+    //       modal.close();
+    //       modal.open('password-forget-code');
+
+    //       document.querySelector('[data-graph-target="password-forget-code"]').querySelector('[name="email"]').value = email;
+
+    //       // addToLS(email, data.userPassword);
+    //       // location.reload();
+    //     } else {
+    //       captchaText.innerHTML = `
+    //         <div class="just-validate-error-label" style="color: rgb(184, 17, 17);">Введённый почтовый адрес не существует!</div>
+    //       `;
+    //     }
+    //   }, 2000);
+    // });
+
+    console.log('ok');
   });
 
 }
