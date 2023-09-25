@@ -3,7 +3,6 @@ import GraphModal from 'graph-modal';
 import vars from '../_vars';
 
 import { checkUser } from "./checkUser";
-import { loginUser } from "./loginUser";
 import { addToLS } from "./addToLS";
 import { checkEmail } from "./checkEmail";
 import { checkCode } from "./checkCode";
@@ -159,6 +158,8 @@ export function form() {
           grecaptcha.reset(vars.captcha2);
 
           if(data.response) {
+            captchaText.innerHTML = '';
+
             ev.target.reset();
             modal.close();
 
@@ -214,6 +215,8 @@ export function form() {
           grecaptcha.reset(vars.captcha3);
 
           if(data.response) {
+            captchaText.innerHTML = '';
+
             ev.target.reset();
 
             modal.close();
@@ -260,6 +263,8 @@ export function form() {
         modalContainer.classList.remove('graph-modal__container--anim');
 
         if(data.response) {
+          captchaText.innerHTML = '';
+
           ev.target.reset();
 
           // modal.close();
