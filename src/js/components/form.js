@@ -6,6 +6,7 @@ import { checkUser } from "./checkUser";
 import { addToLS } from "./addToLS";
 import { checkEmail } from "./checkEmail";
 import { checkCode } from "./checkCode";
+import { passwordNew } from "./passwordNew";
 
 export function form() {
   const modal = new GraphModal();
@@ -254,33 +255,89 @@ export function form() {
     const modalContainer = currentForm.closest('.graph-modal__container');
     const captchaText = currentForm.querySelector('.graph-modal__captcha-text');
 
+    if(passwordCodeEmail) {
+      captchaText.innerHTML = '';
+
+      modalContainer.classList.add('graph-modal__container--anim');
+
+      const code = currentForm.querySelector('#password-code').value.replace(/_/g,'').replace(/\s/g,'');
+
+      checkCode('libs/check-code.php', passwordCodeEmail, code, (data) => {
+        setTimeout(() => {
+          modalContainer.classList.remove('graph-modal__container--anim');
+
+          if(data.response) {
+            captchaText.innerHTML = '';
+
+            ev.target.reset();
+
+            modal.close();
+            modal.open('password-new');
+          } else {
+            captchaText.innerHTML = `
+              <div class="just-validate-error-label" style="color: rgb(184, 17, 17);">Неверный код!</div>
+            `;
+          }
+        }, 2000);
+      });
+    } else {
+      captchaText.innerHTML = `
+        <div class="just-validate-error-label" style="color: rgb(184, 17, 17);">Почтовый адрес не существует!</div>
+      `;
+    }
+  });
+
+  validForm('.form--password-new', [
+    {
+      ruleSelector: '#password-new',
+      rules: [
+        {
+          rule: 'required',
+          errorMessage: 'Введите пароль!',
+        },
+        {
+          rule: 'minLength',
+          value: 5,
+          errorMessage: 'Минимальная длина - 5 символов!',
+        },
+      ]
+    },
+    {
+      ruleSelector: '#password-new-repeat',
+      rules: [
+        {
+          rule: 'function',
+          validator: function() {
+            const password1 = document.querySelector('.form--password-new').querySelector('#password-new');
+            const password2 = document.querySelector('.form--password-new').querySelector('#password-new-repeat');
+            return password1.value === password2.value;
+          },
+          errorMessage: 'Пароли должны совпадать!',
+        },
+      ]
+    },
+  ], (ev) => {
+    const currentForm = document.querySelector('.form--password-new');
+    const modalContainer = currentForm.closest('.graph-modal__container');
+
     modalContainer.classList.add('graph-modal__container--anim');
 
-    const code = currentForm.querySelector('#password-code').value.replace(/_/g,'').replace(/\s/g,'');
+    const password = currentForm.querySelector('#password-new').value.replace(/<[^>]+>/g,'');
 
-    checkCode('libs/check-code.php', passwordCodeEmail, code, (data) => {
+    passwordNew('libs/password-new.php', passwordCodeEmail, password, (data) => {
       setTimeout(() => {
         modalContainer.classList.remove('graph-modal__container--anim');
 
         if(data.response) {
-          captchaText.innerHTML = '';
 
           ev.target.reset();
 
-          // modal.close();
-          // modal.open('password-forget-code');
-
-          // document.querySelector('[data-graph-target="password-forget-code"]').querySelector('[name="email"]').value = email;
-
-          // addToLS(email, data.userPassword);
-          // location.reload();
-        } else {
-          captchaText.innerHTML = `
-            <div class="just-validate-error-label" style="color: rgb(184, 17, 17);">Неверный код!</div>
-          `;
+          modal.close();
+          modal.open('btn-sign-in');
         }
       }, 2000);
     });
+
   });
 
 }

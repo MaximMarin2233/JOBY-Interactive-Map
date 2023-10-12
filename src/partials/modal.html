@@ -97,6 +97,28 @@
     </div>
   </div>
 
+  <div class="graph-modal__container" role="dialog" aria-modal="true" data-graph-target="password-new">
+    <div class="graph-modal__content">
+      <div class="graph-modal__title-wrapper">
+        <h2 class="graph-modal__title">Новый пароль</h2>
+        <button class="btn-reset js-modal-close graph-modal__close" aria-label="Закрыть модальное окно"></button>
+      </div>
+      <form class="form form--password-new" action="#">
+        <div class="form__content">
+          <label class="form__label" for="password-new">Введите новый пароль:</label>
+          <div class="form__input-wrapper form__input-wrapper--3">
+            <input class="input-reset form__input" id="password-new" type="password" name="password" placeholder="Пароль">
+          </div>
+          <label class="form__label" for="password-new-repeat">Повторите ввод нового пароля:</label>
+          <div class="form__input-wrapper form__input-wrapper--3">
+            <input class="input-reset form__input" id="password-new-repeat" type="password" name="password-repeat" placeholder="Пароль">
+          </div>
+        </div>
+        <button class="btn-reset btn btn--bold form__btn">Сохранить</button>
+      </form>
+    </div>
+  </div>
+
   <div class="graph-modal__container" role="dialog" aria-modal="true" data-graph-target="btn-create-order">
     <div class="graph-modal__content">
       <div class="graph-modal__title-wrapper">
