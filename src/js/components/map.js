@@ -6,7 +6,7 @@ export function map() {
 
   ymaps.ready(init);
 
-  function init(){
+  function init() {
 
     let myMap;
 
@@ -15,31 +15,31 @@ export function map() {
     });
 
     location.then(
-      function(result) {
+      function (result) {
         defaultCreateMap(myMap, result.geoObjects.position[0], result.geoObjects.position[1]);
       },
-      function(err) {
+      function (err) {
         defaultCreateMap(myMap);
       }
     );
 
-// CAPTCHA
+    // CAPTCHA
 
     let captchaKey = '6LfRd5ckAAAAAD1GVeseZJSzlRw21_II9R7QwC7R';
 
     vars.captcha1 = grecaptcha.render('captcha1', {
-      'sitekey' : captchaKey,
+      'sitekey': captchaKey,
     });
     vars.captcha2 = grecaptcha.render('captcha2', {
-      'sitekey' : captchaKey,
+      'sitekey': captchaKey,
     });
     vars.captcha3 = grecaptcha.render('captcha3', {
-      'sitekey' : captchaKey,
+      'sitekey': captchaKey,
     });
 
-// CAPTCHA /
+    // CAPTCHA /
 
-// LOADER
+    // LOADER
 
     const loader = document.querySelector('.loader');
 
@@ -51,9 +51,9 @@ export function map() {
     //   loader.remove();
     // }, 2500);
 
-// LOADER /
+    // LOADER /
 
-// TEST
+    // TEST
 
 
     // Подключаем поисковые подсказки к полю ввода.
@@ -65,59 +65,76 @@ export function map() {
     });
 
     function geocode() {
-        // Забираем запрос из поля ввода.
-        var request = document.querySelector('#create-order-address').value;
-        // Геокодируем введённые данные.
-        ymaps.geocode(request).then(function (res) {
-            var obj = res.geoObjects.get(0),
-                error, hint;
+      // Забираем запрос из поля ввода.
+      let request = document.querySelector('#create-order-address').value;
 
-            if (obj) {
-                // Об оценке точности ответа геокодера можно прочитать тут: https://tech.yandex.ru/maps/doc/geocoder/desc/reference/precision-docpage/
-                switch (obj.properties.get('metaDataProperty.GeocoderMetaData.precision')) {
-                    case 'exact':
-                        break;
-                    case 'number':
-                    case 'near':
-                    case 'range':
-                        error = 'Неточный адрес, требуется уточнение';
-                        hint = 'Уточните номер дома';
-                        break;
-                    case 'street':
-                        error = 'Неполный адрес, требуется уточнение';
-                        hint = 'Уточните номер дома';
-                        break;
-                    case 'other':
-                    default:
-                        error = 'Неточный адрес, требуется уточнение';
-                        hint = 'Уточните адрес';
-                }
-            } else {
-                error = 'Адрес не найден';
-                hint = 'Уточните адрес';
-            }
+      if (request.length === 0) {
+        console.log('empty');
 
-            // Если геокодер возвращает пустой массив или неточный результат, то показываем ошибку.
-            if (error) {
-                showError(error);
-                showMessage(hint);
-            } else {
-                showResult(obj);
-            }
-        }, function (e) {
-            console.log(e)
-        })
+        return;
+      }
+
+
+      // Геокодируем введённые данные.
+      ymaps.geocode(request).then(function (res) {
+        let obj = res.geoObjects.get(0),
+          error, hint;
+
+        console.log(obj.geometry.getCoordinates());
+        // console.log(obj.getCountry());
+
+        if (obj.getCountry() !== 'Россия') {
+          console.log('country err');
+
+          return;
+        }
+
+        if (obj) {
+          // Об оценке точности ответа геокодера можно прочитать тут: https://tech.yandex.ru/maps/doc/geocoder/desc/reference/precision-docpage/
+          switch (obj.properties.get('metaDataProperty.GeocoderMetaData.precision')) {
+            case 'exact':
+              break;
+            case 'number':
+            case 'near':
+            case 'range':
+              error = 'Неточный адрес, требуется уточнение';
+              hint = 'Уточните номер дома';
+              break;
+            case 'street':
+              error = 'Неполный адрес, требуется уточнение';
+              hint = 'Уточните номер дома';
+              break;
+            case 'other':
+            default:
+              error = 'Неточный адрес, требуется уточнение';
+              hint = 'Уточните адрес';
+          }
+        } else {
+          error = 'Адрес не найден';
+          hint = 'Уточните адрес';
+        }
+
+        // Если геокодер возвращает пустой массив или неточный результат, то показываем ошибку.
+        if (error) {
+          showError(error);
+          showMessage(hint);
+        } else {
+          showResult(obj);
+        }
+      }, function (e) {
+        console.log(e)
+      })
 
     }
     function showResult(obj) {
-        // Удаляем сообщение об ошибке, если найденный адрес совпадает с поисковым запросом.
-        console.log('not-err');
+      // Удаляем сообщение об ошибке, если найденный адрес совпадает с поисковым запросом.
+      console.log('not-err');
 
 
-        showMessage([obj.getCountry(), obj.getAddressLine()].join(', '));
+      showMessage([obj.getCountry(), obj.getAddressLine()].join(', '));
 
-        console.log([obj.getCountry(), obj.getAddressLine()].join(', '));
-        console.log([obj.getThoroughfare(), obj.getPremiseNumber(), obj.getPremise()].join(' '));
+      console.log([obj.getCountry(), obj.getAddressLine()].join(', '));
+      console.log([obj.getThoroughfare(), obj.getPremiseNumber(), obj.getPremise()].join(' '));
     }
 
     function showError(message) {
@@ -129,7 +146,7 @@ export function map() {
     }
 
 
-// TEST /
+    // TEST /
 
   }
 
