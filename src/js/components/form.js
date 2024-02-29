@@ -55,7 +55,7 @@ export function form() {
       rules: [
         {
           rule: 'function',
-          validator: function() {
+          validator: function () {
             const password1 = document.querySelector('.form--sign-up').querySelector('#sign-up-password');
             const password2 = document.querySelector('.form--sign-up').querySelector('#sign-up-password-repeat');
             return password1.value === password2.value;
@@ -71,19 +71,20 @@ export function form() {
 
     const xmlhttp = new XMLHttpRequest();
 
-    if(grecaptcha.getResponse(vars.captcha1)) {
+    if (grecaptcha.getResponse(vars.captcha1)) {
       captchaText.innerHTML = '';
 
       modalContainer.classList.add('graph-modal__container--anim');
 
-      const email = currentForm.querySelector('#sign-up-email').value.replace(/<[^>]+>/g,'');
-      const password = currentForm.querySelector('#sign-up-password').value.replace(/<[^>]+>/g,'');
+      const email = currentForm.querySelector('#sign-up-email').value.replace(/<[^>]+>/g, '');
+      const password = currentForm.querySelector('#sign-up-password').value.replace(/<[^>]+>/g, '');
       const mark = 'no';
       const code = '';
+      const coords = '';
 
       xmlhttp.open('post', 'libs/sign-up.php', true);
       xmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-      xmlhttp.send("email=" + encodeURIComponent(email) + "&password=" + encodeURIComponent(password) + "&mark=" + encodeURIComponent(mark) + "&code=" + encodeURIComponent(code));
+      xmlhttp.send("email=" + encodeURIComponent(email) + "&password=" + encodeURIComponent(password) + "&mark=" + encodeURIComponent(mark) + "&code=" + encodeURIComponent(code) + "&coords=" + encodeURIComponent(coords));
 
       xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState === 4) {
@@ -96,7 +97,7 @@ export function form() {
 
                 modal.close();
 
-                if(data.response) {
+                if (data.response) {
                   addToLS(email, data.userPassword);
                   location.reload();
                 }
@@ -145,20 +146,20 @@ export function form() {
     const modalContainer = currentForm.closest('.graph-modal__container');
     const captchaText = currentForm.querySelector('.graph-modal__captcha-text');
 
-    if(grecaptcha.getResponse(vars.captcha2)) {
+    if (grecaptcha.getResponse(vars.captcha2)) {
       captchaText.innerHTML = '';
 
       modalContainer.classList.add('graph-modal__container--anim');
 
-      const email = currentForm.querySelector('#sign-in-email').value.replace(/<[^>]+>/g,'');
-      const password = currentForm.querySelector('#sign-in-password').value.replace(/<[^>]+>/g,'');
+      const email = currentForm.querySelector('#sign-in-email').value.replace(/<[^>]+>/g, '');
+      const password = currentForm.querySelector('#sign-in-password').value.replace(/<[^>]+>/g, '');
 
       checkUser('libs/sign-in.php', email, password, (data) => {
         setTimeout(() => {
           modalContainer.classList.remove('graph-modal__container--anim');
           grecaptcha.reset(vars.captcha2);
 
-          if(data.response) {
+          if (data.response) {
             captchaText.innerHTML = '';
 
             ev.target.reset();
@@ -202,12 +203,12 @@ export function form() {
     const modalContainer = currentForm.closest('.graph-modal__container');
     const captchaText = currentForm.querySelector('.graph-modal__captcha-text');
 
-    if(grecaptcha.getResponse(vars.captcha3)) {
+    if (grecaptcha.getResponse(vars.captcha3)) {
       captchaText.innerHTML = '';
 
       modalContainer.classList.add('graph-modal__container--anim');
 
-      const email = currentForm.querySelector('#password-reset-email').value.replace(/<[^>]+>/g,'');
+      const email = currentForm.querySelector('#password-reset-email').value.replace(/<[^>]+>/g, '');
 
 
       checkEmail('libs/check-email.php', email, (data) => {
@@ -215,7 +216,7 @@ export function form() {
           modalContainer.classList.remove('graph-modal__container--anim');
           grecaptcha.reset(vars.captcha3);
 
-          if(data.response) {
+          if (data.response) {
             captchaText.innerHTML = '';
 
             ev.target.reset();
@@ -255,18 +256,18 @@ export function form() {
     const modalContainer = currentForm.closest('.graph-modal__container');
     const captchaText = currentForm.querySelector('.graph-modal__captcha-text');
 
-    if(passwordCodeEmail) {
+    if (passwordCodeEmail) {
       captchaText.innerHTML = '';
 
       modalContainer.classList.add('graph-modal__container--anim');
 
-      const code = currentForm.querySelector('#password-code').value.replace(/_/g,'').replace(/\s/g,'');
+      const code = currentForm.querySelector('#password-code').value.replace(/_/g, '').replace(/\s/g, '');
 
       checkCode('libs/check-code.php', passwordCodeEmail, code, (data) => {
         setTimeout(() => {
           modalContainer.classList.remove('graph-modal__container--anim');
 
-          if(data.response) {
+          if (data.response) {
             captchaText.innerHTML = '';
 
             ev.target.reset();
@@ -307,7 +308,7 @@ export function form() {
       rules: [
         {
           rule: 'function',
-          validator: function() {
+          validator: function () {
             const password1 = document.querySelector('.form--password-new').querySelector('#password-new');
             const password2 = document.querySelector('.form--password-new').querySelector('#password-new-repeat');
             return password1.value === password2.value;
@@ -322,13 +323,13 @@ export function form() {
 
     modalContainer.classList.add('graph-modal__container--anim');
 
-    const password = currentForm.querySelector('#password-new').value.replace(/<[^>]+>/g,'');
+    const password = currentForm.querySelector('#password-new').value.replace(/<[^>]+>/g, '');
 
     passwordNew('libs/password-new.php', passwordCodeEmail, password, (data) => {
       setTimeout(() => {
         modalContainer.classList.remove('graph-modal__container--anim');
 
-        if(data.response) {
+        if (data.response) {
 
           ev.target.reset();
 

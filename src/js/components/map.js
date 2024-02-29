@@ -1,6 +1,7 @@
 import vars from '../_vars';
 
 import { checkUser } from "./checkUser";
+import { addCoords } from "./addCoords";
 
 export function map() {
 
@@ -135,6 +136,45 @@ export function map() {
 
       console.log([obj.getCountry(), obj.getAddressLine()].join(', '));
       console.log([obj.getThoroughfare(), obj.getPremiseNumber(), obj.getPremise()].join(' '));
+
+      let user;
+
+      try {
+        user = JSON.parse(localStorage.getItem('userInf'));
+      } catch (err) {
+        user = false;
+      }
+
+      checkUser('libs/sign-in-LS.php', user.email, user.password, (data) => {
+        if (data.response) {
+
+          const postOrderForm = document.querySelector('.form--post-order');
+          const modalContainer = postOrderForm.closest('.graph-modal__container');
+
+          modalContainer.classList.add('graph-modal__container--anim');
+
+          addCoords('libs/add-coords.php', user.email, obj.geometry.getCoordinates().join(), (data) => {
+            setTimeout(() => {
+              modalContainer.classList.remove('graph-modal__container--anim');
+
+              if (data.response) {
+                // captchaText.innerHTML = '';
+
+                postOrderForm.reset();
+
+                console.log('success');
+              } else {
+                // captchaText.innerHTML = `
+                //   <div class="just-validate-error-label" style="color: rgb(184, 17, 17);">Введённый почтовый адрес не существует!</div>
+                // `;
+                console.log('err');
+              }
+            }, 2000);
+          });
+
+        }
+      });
+
     }
 
     function showError(message) {
