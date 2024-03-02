@@ -2,6 +2,7 @@ import vars from '../_vars';
 
 import { checkUser } from "./checkUser";
 import { addCoords } from "./addCoords";
+import { getCoords } from "./getCoords";
 
 export function map() {
 
@@ -194,6 +195,39 @@ export function map() {
     map = new ymaps.Map("joby-map", {
       center: [x, y],
       zoom: 10
+    });
+
+    getCoords('libs/get-coords.php', (data) => {
+      console.log(data);
+      if (data.response) {
+        // data.coordsArr.forEach(item => {
+        //   var placemark = new ymaps.Placemark(item.split(',').map(parseFloat));
+
+        //   map.geoObjects.add(placemark);
+        // });
+
+        var objects = ymaps.geoQuery([{
+          type: 'Point',
+          coordinates: [56.513631, 85.043328]
+        }, {
+          type: 'Point',
+          coordinates: [56.512613, 85.041613]
+        }]);
+
+        // Найдем объекты, попадающие в видимую область карты.
+        objects.searchInside(map)
+          // И затем добавим найденные объекты на карту.
+          .addToMap(map);
+
+        map.events.add('boundschange', function () {
+          // После каждого сдвига карты будем смотреть, какие объекты попадают в видимую область.
+          var visibleObjects = objects.searchInside(map).addToMap(map);
+          // Оставшиеся объекты будем удалять с карты.
+          objects.remove(visibleObjects).removeFromMap(map);
+        });
+
+
+      }
     });
   }
 

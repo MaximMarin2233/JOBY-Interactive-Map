@@ -15,7 +15,7 @@
       $object = json_decode(json_encode($row), FALSE);
 
       if($object->email == $email and password_verify($password, $object->password)) {
-        $final["userPassword"] = password_hash($object->password, PASSWORD_BCRYPT);;
+        $final["userPassword"] = password_hash($object->password, PASSWORD_BCRYPT);
         $final["response"] = true;
       }
   }
