@@ -206,25 +206,45 @@ export function map() {
         //   map.geoObjects.add(placemark);
         // });
 
-        var objects = ymaps.geoQuery([{
-          type: 'Point',
-          coordinates: [56.513631, 85.043328]
+        // var objects = ymaps.geoQuery([{
+        //   type: 'Point',
+        //   coordinates: [56.513631, 85.043328]
+        // }, {
+        //   type: 'Point',
+        //   coordinates: [56.512613, 85.041613]
+        // }]);
+
+        // // Найдем объекты, попадающие в видимую область карты.
+        // objects.searchInside(map)
+        //   // И затем добавим найденные объекты на карту.
+        //   .addToMap(map);
+
+        // map.events.add('boundschange', function () {
+        //   // После каждого сдвига карты будем смотреть, какие объекты попадают в видимую область.
+        //   var visibleObjects = objects.searchInside(map).addToMap(map);
+        //   // Оставшиеся объекты будем удалять с карты.
+        //   objects.remove(visibleObjects).removeFromMap(map);
+        // });
+
+        var customLayout = ymaps.templateLayoutFactory.createClass('<div style="border-radius: 50%; background-color: #647c89; color: #fff; width: 20px; height: 20px; display: flex; justify-content: center; align-items: center;transform: translate(-50%, -50%)">{{ properties.iconContent }}</div>');
+
+        // Создаем кастомную метку в виде круга с надписью
+        var customMarker = new ymaps.Placemark([56.513631, 85.043328], {
+          iconContent: '2'
         }, {
-          type: 'Point',
-          coordinates: [56.512613, 85.041613]
-        }]);
-
-        // Найдем объекты, попадающие в видимую область карты.
-        objects.searchInside(map)
-          // И затем добавим найденные объекты на карту.
-          .addToMap(map);
-
-        map.events.add('boundschange', function () {
-          // После каждого сдвига карты будем смотреть, какие объекты попадают в видимую область.
-          var visibleObjects = objects.searchInside(map).addToMap(map);
-          // Оставшиеся объекты будем удалять с карты.
-          objects.remove(visibleObjects).removeFromMap(map);
+          iconLayout: customLayout,
+          iconShape: {
+            type: 'Circle',
+            coordinates: [0, 0],
+            radius: 20
+          },
+          hintContent: 'Подсказка при наведении на метку'
         });
+
+        console.log(customMarker.options._options)
+
+        // Добавляем кастомную метку на карту
+        map.geoObjects.add(customMarker);
 
 
       }
