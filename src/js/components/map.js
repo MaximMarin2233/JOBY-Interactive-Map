@@ -228,23 +228,91 @@ export function map() {
 
         var customLayout = ymaps.templateLayoutFactory.createClass('<div style="border-radius: 50%; background-color: #647c89; color: #fff; width: 20px; height: 20px; display: flex; justify-content: center; align-items: center;transform: translate(-50%, -50%)">{{ properties.iconContent }}</div>');
 
-        // Создаем кастомную метку в виде круга с надписью
-        var customMarker = new ymaps.Placemark([56.513631, 85.043328], {
-          iconContent: '2'
-        }, {
-          iconLayout: customLayout,
-          iconShape: {
-            type: 'Circle',
-            coordinates: [0, 0],
-            radius: 20
-          },
-          hintContent: 'Подсказка при наведении на метку'
+        let markers = [];
+
+        // data.coordsArr.forEach(function (item) {
+        //   var marker = new ymaps.Placemark(item.split(',').map(parseFloat), {
+        //     iconContent: '1'
+        //   }, {
+        //     iconLayout: customLayout,
+        //     iconShape: {
+        //       type: 'Circle',
+        //       coordinates: [0, 0],
+        //       radius: 20
+        //     },
+        //     hintContent: 'Подсказка при наведении на метку'
+        //   });
+
+        //   markers.push(marker);
+        //   map.geoObjects.add(marker);
+        // });
+
+
+
+        var coordinateCount = {};
+
+        // Считаем количество повторений координат
+        data.coordsArr.forEach(function (coordinate) {
+          var key = coordinate;
+          coordinateCount[key] = (coordinateCount[key] || 0) + 1;
         });
 
-        console.log(customMarker.options._options)
+        // Создаем метки на карте
+        data.coordsArr.forEach(function (coordinate) {
+          var key = coordinate;
+          var iconContent = coordinateCount[key] > 1 ? coordinateCount[key] : 1;
 
-        // Добавляем кастомную метку на карту
-        map.geoObjects.add(customMarker);
+          var marker = new ymaps.Placemark(coordinate.split(',').map(parseFloat), {
+            iconContent: iconContent.toString()
+          }, {
+            iconLayout: customLayout,
+            iconShape: {
+              type: 'Circle',
+              coordinates: [0, 0],
+              radius: 20
+            }
+          });
+
+          markers.push(marker);
+          map.geoObjects.add(marker);
+        });
+
+
+        console.log(data.coordsArr[0].split(',').map(parseFloat));
+
+        // // Создаем кастомную метку в виде круга с надписью
+        // var customMarker = new ymaps.Placemark([56.513631, 85.043328], {
+        //   iconContent: ''
+        // }, {
+        //   iconLayout: customLayout,
+        //   iconShape: {
+        //     type: 'Circle',
+        //     coordinates: [0, 0],
+        //     radius: 20
+        //   },
+        // });
+
+        // // Добавляем кастомную метку на карту
+        // map.geoObjects.add(customMarker);
+
+        function updateMarkers() {
+          var bounds = map.getBounds();
+
+          markers.forEach(function (marker) {
+            var markerCoords = marker.geometry.getCoordinates();
+
+            if (bounds[0][0] <= markerCoords[0] && markerCoords[0] <= bounds[1][0] &&
+              bounds[0][1] <= markerCoords[1] && markerCoords[1] <= bounds[1][1]) {
+              marker.options.set('visible', true);
+            } else {
+              marker.options.set('visible', false);
+            }
+          });
+        }
+
+        map.events.add('boundschange', function () {
+          updateMarkers();
+        });
 
 
       }
