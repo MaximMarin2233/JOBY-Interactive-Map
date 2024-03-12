@@ -1,4 +1,3 @@
-import JustValidate from 'just-validate';
 import GraphModal from 'graph-modal';
 import vars from '../_vars';
 
@@ -7,20 +6,10 @@ import { addToLS } from "./addToLS";
 import { checkEmail } from "./checkEmail";
 import { checkCode } from "./checkCode";
 import { passwordNew } from "./passwordNew";
+import { validForm } from "./validForm";
 
 export function form() {
   const modal = new GraphModal();
-
-  function validForm(selector, rules, func) {
-    const validation = new JustValidate(selector);
-
-    for (let item of rules) {
-      validation
-        .addField(item.ruleSelector, item.rules);
-    }
-
-    validation.onSuccess(func);
-  }
 
   validForm('.form--sign-up', [
     {
@@ -78,13 +67,14 @@ export function form() {
 
       const email = currentForm.querySelector('#sign-up-email').value.replace(/<[^>]+>/g, '');
       const password = currentForm.querySelector('#sign-up-password').value.replace(/<[^>]+>/g, '');
-      const mark = 'no';
       const code = '';
       const coords = '';
+      const phone = '';
+      const placemarkText = '';
 
       xmlhttp.open('post', 'libs/sign-up.php', true);
       xmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-      xmlhttp.send("email=" + encodeURIComponent(email) + "&password=" + encodeURIComponent(password) + "&mark=" + encodeURIComponent(mark) + "&code=" + encodeURIComponent(code) + "&coords=" + encodeURIComponent(coords));
+      xmlhttp.send("email=" + encodeURIComponent(email) + "&password=" + encodeURIComponent(password) + "&code=" + encodeURIComponent(code) + "&coords=" + encodeURIComponent(coords) + "&phone=" + encodeURIComponent(phone) + "&placemarkText=" + encodeURIComponent(placemarkText));
 
       xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState === 4) {

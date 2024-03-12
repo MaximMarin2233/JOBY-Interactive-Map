@@ -2,10 +2,12 @@
   $email = $_POST['email'];
   $password = $_POST['password'];
   $hash = password_hash($password, PASSWORD_BCRYPT);
-  $mark = $_POST['mark'];
   $code = $_POST['code'];
   $coords = $_POST['coords'];
+  $phone = $_POST['phone'];
+  $placemarkText = $_POST['placemarkText'];
+
   $mysqli = new Mysqli('localhost', 'root', '', 'joby');
   $mysqli->query("SET NAMES utf8");
-  $mysqli->query("INSERT INTO `user`(`email`, `password`, `mark`, `code`, `coords`) VALUES('$email', '$hash', '$mark', '$code', '$coords')");
+  $mysqli->query("INSERT INTO `user`(`email`, `password`, `code`, `coords`, `phone`, `placemarkText`) VALUES('$email', '$hash', '$code', '$coords', '$phone', '$placemarkText')");
 ?>

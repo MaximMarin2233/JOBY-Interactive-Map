@@ -3,6 +3,7 @@ import vars from '../_vars';
 import { checkUser } from "./checkUser";
 import { addCoords } from "./addCoords";
 import { getCoords } from "./getCoords";
+import { validForm } from "./validForm";
 
 export function map() {
 
@@ -55,6 +56,14 @@ export function map() {
 
     // LOADER /
 
+    const inputMask = new Inputmask({
+      mask: '+7 999 999 99 99',
+      placeholder: '+7              ',
+      clearMaskOnLostFocus: false
+    });
+    const telSelector = document.querySelector('#create-order-phone');
+    inputMask.mask(telSelector);
+
     // TEST
 
 
@@ -62,7 +71,52 @@ export function map() {
     new ymaps.SuggestView('create-order-address');
 
     // При клике по кнопке запускаем верификацию введёных данных.
-    document.querySelector('[data-create-order-btn]').addEventListener('click', function (e) {
+    // document.querySelector('[data-create-order-btn]').addEventListener('click', function (e) {
+    //   geocode();
+    // });
+
+    validForm('.form--post-order', [
+      {
+        ruleSelector: '#create-order-address',
+        rules: [
+          {
+            rule: 'required',
+            errorMessage: 'Введите адрес!',
+          },
+        ]
+      },
+      {
+        ruleSelector: '#create-order-phone',
+        rules: [
+          {
+            rule: 'required',
+            errorMessage: 'Введите телефон!',
+          },
+          {
+            rule: 'function',
+            validator: function () {
+              const phone = telSelector.inputmask.unmaskedvalue();
+              return phone.length === 10;
+            },
+            errorMessage: 'Введите телефон корректно!'
+          },
+        ]
+      },
+      {
+        ruleSelector: '#create-order-text',
+        rules: [
+          {
+            rule: 'required',
+            errorMessage: 'Заполните поле!',
+          },
+          {
+            rule: 'minLength',
+            value: 10,
+            errorMessage: 'Минимальная длина - 10 символов!',
+          },
+        ]
+      },
+    ], (ev) => {
       geocode();
     });
 
@@ -133,10 +187,10 @@ export function map() {
       console.log('not-err');
 
 
-      showMessage([obj.getCountry(), obj.getAddressLine()].join(', '));
+      // showMessage([obj.getCountry(), obj.getAddressLine()].join(', '));
 
-      console.log([obj.getCountry(), obj.getAddressLine()].join(', '));
-      console.log([obj.getThoroughfare(), obj.getPremiseNumber(), obj.getPremise()].join(' '));
+      // console.log([obj.getCountry(), obj.getAddressLine()].join(', '));
+      // console.log([obj.getThoroughfare(), obj.getPremiseNumber(), obj.getPremise()].join(' '));
 
       let user;
 
