@@ -124,12 +124,6 @@ export function map() {
       // Забираем запрос из поля ввода.
       let request = document.querySelector('#create-order-address').value;
 
-      if (request.length === 0) {
-        console.log('empty');
-
-        return;
-      }
-
 
       // Геокодируем введённые данные.
       ymaps.geocode(request).then(function (res) {
@@ -179,7 +173,9 @@ export function map() {
         }
       }, function (e) {
         console.log(e)
-      })
+      }).catch(function (error) {
+        console.error('Ошибка при выполнении геокодирования:', error);
+      });
 
     }
     function showResult(obj) {
@@ -284,25 +280,6 @@ export function map() {
 
         let markers = [];
 
-        // data.coordsArr.forEach(function (item) {
-        //   var marker = new ymaps.Placemark(item.split(',').map(parseFloat), {
-        //     iconContent: '1'
-        //   }, {
-        //     iconLayout: customLayout,
-        //     iconShape: {
-        //       type: 'Circle',
-        //       coordinates: [0, 0],
-        //       radius: 20
-        //     },
-        //     hintContent: 'Подсказка при наведении на метку'
-        //   });
-
-        //   markers.push(marker);
-        //   map.geoObjects.add(marker);
-        // });
-
-
-
         var coordinateCount = {};
 
         // Считаем количество повторений координат
@@ -334,20 +311,6 @@ export function map() {
 
         console.log(data.coordsArr[0].split(',').map(parseFloat));
 
-        // // Создаем кастомную метку в виде круга с надписью
-        // var customMarker = new ymaps.Placemark([56.513631, 85.043328], {
-        //   iconContent: ''
-        // }, {
-        //   iconLayout: customLayout,
-        //   iconShape: {
-        //     type: 'Circle',
-        //     coordinates: [0, 0],
-        //     radius: 20
-        //   },
-        // });
-
-        // // Добавляем кастомную метку на карту
-        // map.geoObjects.add(customMarker);
 
         function updateMarkers() {
           var bounds = map.getBounds();
