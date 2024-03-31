@@ -196,35 +196,37 @@ export function map() {
         user = false;
       }
 
-      checkUser('libs/sign-in-LS.php', user.email, user.password, (data) => {
-        if (data.response) {
+      if (user) {
+        checkUser('libs/sign-in-LS.php', user.email, user.password, (data) => {
+          if (data.response) {
 
-          const postOrderForm = document.querySelector('.form--post-order');
-          const modalContainer = postOrderForm.closest('.graph-modal__container');
+            const postOrderForm = document.querySelector('.form--post-order');
+            const modalContainer = postOrderForm.closest('.graph-modal__container');
 
-          modalContainer.classList.add('graph-modal__container--anim');
+            modalContainer.classList.add('graph-modal__container--anim');
 
-          addCoords('libs/add-coords.php', user.email, obj.geometry.getCoordinates().join(), (data) => {
-            setTimeout(() => {
-              modalContainer.classList.remove('graph-modal__container--anim');
+            addCoords('libs/add-coords.php', user.email, obj.geometry.getCoordinates().join(), (data) => {
+              setTimeout(() => {
+                modalContainer.classList.remove('graph-modal__container--anim');
 
-              if (data.response) {
-                // captchaText.innerHTML = '';
+                if (data.response) {
+                  // captchaText.innerHTML = '';
 
-                postOrderForm.reset();
+                  postOrderForm.reset();
 
-                console.log('success');
-              } else {
-                // captchaText.innerHTML = `
-                //   <div class="just-validate-error-label" style="color: rgb(184, 17, 17);">Введённый почтовый адрес не существует!</div>
-                // `;
-                console.log('err');
-              }
-            }, 2000);
-          });
+                  console.log('success');
+                } else {
+                  // captchaText.innerHTML = `
+                  //   <div class="just-validate-error-label" style="color: rgb(184, 17, 17);">Введённый почтовый адрес не существует!</div>
+                  // `;
+                  console.log('err');
+                }
+              }, 2000);
+            });
 
-        }
-      });
+          }
+        });
+      }
 
     }
 
@@ -293,19 +295,32 @@ export function map() {
           var key = coordinate;
           var iconContent = coordinateCount[key] > 1 ? coordinateCount[key] : 1;
 
-          var marker = new ymaps.Placemark(coordinate.split(',').map(parseFloat), {
-            iconContent: iconContent.toString()
-          }, {
-            iconLayout: customLayout,
-            iconShape: {
-              type: 'Circle',
-              coordinates: [0, 0],
-              radius: 20
-            }
+          // Проверяем, существует ли уже метка для данной координаты
+          var existingMarker = markers.find(function (marker) {
+            return marker.geometry.getCoordinates().toString() === coordinate;
           });
 
-          markers.push(marker);
-          map.geoObjects.add(marker);
+          if (!existingMarker) {
+            // Создаем новую метку только если её еще нет на карте
+            var marker = new ymaps.Placemark(coordinate.split(',').map(parseFloat), {
+              iconContent: iconContent.toString()
+            }, {
+              iconLayout: customLayout,
+              iconShape: {
+                type: 'Circle',
+                coordinates: [0, 0],
+                radius: 20
+              }
+            });
+
+            marker.events.add('click', function (e) {
+              // Скрываем метку
+              marker.options.set('visible', false);
+            });
+
+            markers.push(marker);
+            map.geoObjects.add(marker);
+          }
         });
 
 
