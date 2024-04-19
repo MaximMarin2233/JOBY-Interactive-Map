@@ -1,8 +1,8 @@
 import vars from '../_vars';
 
 import { checkUser } from "./checkUser";
-import { addCoords } from "./addCoords";
-import { getCoords } from "./getCoords";
+import { addOrderInfo } from "./addOrderInfo";
+import { getOrderInfo } from "./getOrderInfo";
 import { validForm } from "./validForm";
 
 export function map() {
@@ -99,6 +99,20 @@ export function map() {
               return phone.length === 10;
             },
             errorMessage: 'Введите телефон корректно!'
+          },
+        ]
+      },
+      {
+        ruleSelector: '#create-order-title',
+        rules: [
+          {
+            rule: 'required',
+            errorMessage: 'Заполните поле!',
+          },
+          {
+            rule: 'minLength',
+            value: 10,
+            errorMessage: 'Минимальная длина - 10 символов!',
           },
         ]
       },
@@ -205,7 +219,12 @@ export function map() {
 
             modalContainer.classList.add('graph-modal__container--anim');
 
-            addCoords('libs/add-coords.php', user.email, obj.geometry.getCoordinates().join(), (data) => {
+            const phone = postOrderForm.querySelector('#create-order-phone').value;
+            const title = postOrderForm.querySelector('#create-order-title').value.replace(/<[^>]+>/g, '');
+            const text = postOrderForm.querySelector('#create-order-text').value.replace(/<[^>]+>/g, '');
+
+
+            addOrderInfo('libs/add-order-info.php', user.email, obj.geometry.getCoordinates().join(), phone, title, text, (data) => {
               setTimeout(() => {
                 modalContainer.classList.remove('graph-modal__container--anim');
 
@@ -249,7 +268,7 @@ export function map() {
       zoom: 10
     });
 
-    getCoords('libs/get-coords.php', (data) => {
+    getOrderInfo('libs/get-order-info.php', (data) => {
       console.log(data);
       if (data.response) {
         // data.coordsArr.forEach(item => {
@@ -286,36 +305,37 @@ export function map() {
 
         // Считаем количество повторений координат
         data.coordsArr.forEach(function (coordinate) {
-          var key = coordinate;
+          var key = coordinate.coords;
           coordinateCount[key] = (coordinateCount[key] || 0) + 1;
         });
 
         // Создаем метки на карте
         data.coordsArr.forEach(function (coordinate) {
-          var key = coordinate;
+          var key = coordinate.coords;
           var iconContent = coordinateCount[key] > 1 ? coordinateCount[key] : 1;
 
           // Проверяем, существует ли уже метка для данной координаты
           var existingMarker = markers.find(function (marker) {
-            return marker.geometry.getCoordinates().toString() === coordinate;
+            return marker.geometry.getCoordinates().toString() === coordinate.coords;
           });
 
           if (!existingMarker) {
             // Создаем новую метку только если её еще нет на карте
-            var marker = new ymaps.Placemark(coordinate.split(',').map(parseFloat), {
-              iconContent: iconContent.toString()
+            var marker = new ymaps.Placemark(coordinate.coords.split(',').map(parseFloat), {
+              iconContent: iconContent.toString(),
+              orderInfo: coordinate
             }, {
               iconLayout: customLayout,
               iconShape: {
                 type: 'Circle',
                 coordinates: [0, 0],
                 radius: 20
-              }
+              },
+              balloonContent: 'Текст для консоли'
             });
 
             marker.events.add('click', function (e) {
-              // Скрываем метку
-              marker.options.set('visible', false);
+              console.log(e.get('target').properties.get('orderInfo'));
             });
 
             markers.push(marker);
@@ -324,7 +344,7 @@ export function map() {
         });
 
 
-        console.log(data.coordsArr[0].split(',').map(parseFloat));
+        console.log(data.coordsArr[0].coords.split(',').map(parseFloat));
 
 
         function updateMarkers() {

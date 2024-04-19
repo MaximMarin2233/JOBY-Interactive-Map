@@ -3,6 +3,9 @@
 
   $email = $_POST['email'];
   $coords = $_POST['coords'];
+  $phone = $_POST['phone'];
+  $title = $_POST['title'];
+  $text = $_POST['text'];
 
   $mysqli = new Mysqli('localhost', 'root', '', 'joby');
   $mysqli->query("SET NAMES utf8");
@@ -17,7 +20,7 @@
       if($object->email == $email) {
         $final["response"] = true;
 
-        $mysqli->query("UPDATE user SET coords = '$coords' WHERE id = $object->id");
+        $mysqli->query("UPDATE user SET coords = '$coords', phone = '$phone', placemarkTitle = '$title', placemarkText = '$text' WHERE id = $object->id");
       }
   }
 

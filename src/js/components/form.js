@@ -70,11 +70,18 @@ export function form() {
       const code = '';
       const coords = '';
       const phone = '';
+      const placemarkTitle = '';
       const placemarkText = '';
 
       xmlhttp.open('post', 'libs/sign-up.php', true);
       xmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-      xmlhttp.send("email=" + encodeURIComponent(email) + "&password=" + encodeURIComponent(password) + "&code=" + encodeURIComponent(code) + "&coords=" + encodeURIComponent(coords) + "&phone=" + encodeURIComponent(phone) + "&placemarkText=" + encodeURIComponent(placemarkText));
+      xmlhttp.send("email=" + encodeURIComponent(email) +
+                  "&password=" + encodeURIComponent(password) +
+                  "&code=" + encodeURIComponent(code) +
+                  "&coords=" + encodeURIComponent(coords) +
+                  "&phone=" + encodeURIComponent(phone) +
+                  "&placemarkTitle=" + encodeURIComponent(placemarkTitle) +
+                  "&placemarkText=" + encodeURIComponent(placemarkText));
 
       xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState === 4) {

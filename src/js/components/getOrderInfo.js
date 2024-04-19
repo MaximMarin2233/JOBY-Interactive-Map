@@ -1,4 +1,4 @@
-export function getCoords(path, action) {
+export function getOrderInfo(path, action) {
   const xmlhttp = new XMLHttpRequest();
 
   xmlhttp.open('post', path, true);
