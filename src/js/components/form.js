@@ -61,50 +61,67 @@ export function form() {
     const xmlhttp = new XMLHttpRequest();
 
     if (grecaptcha.getResponse(vars.captcha1)) {
+
+      const email = currentForm.querySelector('#sign-up-email').value.replace(/<[^>]+>/g, '');
+
       captchaText.innerHTML = '';
 
       modalContainer.classList.add('anim-block');
 
-      const email = currentForm.querySelector('#sign-up-email').value.replace(/<[^>]+>/g, '');
-      const password = currentForm.querySelector('#sign-up-password').value.replace(/<[^>]+>/g, '');
-      const code = '';
-      const coords = '';
-      const phone = '';
-      const placemarkTitle = '';
-      const placemarkText = '';
-      const placemarkDate = '';
+      checkEmail('libs/check-email.php', email, (data) => {
+        if (!data.response) {
 
-      xmlhttp.open('post', 'libs/sign-up.php', true);
-      xmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-      xmlhttp.send("email=" + encodeURIComponent(email) +
-                  "&password=" + encodeURIComponent(password) +
-                  "&code=" + encodeURIComponent(code) +
-                  "&coords=" + encodeURIComponent(coords) +
-                  "&phone=" + encodeURIComponent(phone) +
-                  "&placemarkTitle=" + encodeURIComponent(placemarkTitle) +
-                  "&placemarkText=" + encodeURIComponent(placemarkText) +
-                  "&placemarkDate=" + encodeURIComponent(placemarkDate));
+          const password = currentForm.querySelector('#sign-up-password').value.replace(/<[^>]+>/g, '');
+          const code = '';
+          const coords = '';
+          const phone = '';
+          const placemarkTitle = '';
+          const placemarkText = '';
+          const placemarkDate = '';
 
-      xmlhttp.onreadystatechange = function () {
-        if (xmlhttp.readyState === 4) {
-          if (xmlhttp.status === 200) {
-            checkUser('libs/sign-in.php', email, password, (data) => {
-              setTimeout(() => {
-                modalContainer.classList.remove('anim-block');
-                ev.target.reset();
-                grecaptcha.reset(vars.captcha1);
+          xmlhttp.open('post', 'libs/sign-up.php', true);
+          xmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+          xmlhttp.send("email=" + encodeURIComponent(email) +
+                      "&password=" + encodeURIComponent(password) +
+                      "&code=" + encodeURIComponent(code) +
+                      "&coords=" + encodeURIComponent(coords) +
+                      "&phone=" + encodeURIComponent(phone) +
+                      "&placemarkTitle=" + encodeURIComponent(placemarkTitle) +
+                      "&placemarkText=" + encodeURIComponent(placemarkText) +
+                      "&placemarkDate=" + encodeURIComponent(placemarkDate));
 
-                modal.close();
+          xmlhttp.onreadystatechange = function () {
+            if (xmlhttp.readyState === 4) {
+              if (xmlhttp.status === 200) {
+                checkUser('libs/sign-in.php', email, password, (data) => {
+                  setTimeout(() => {
+                    modalContainer.classList.remove('anim-block');
+                    ev.target.reset();
+                    grecaptcha.reset(vars.captcha1);
 
-                if (data.response) {
-                  addToLS(email, data.userPassword);
-                  location.reload();
-                }
-              }, 2000);
-            });
+                    modal.close();
+
+                    if (data.response) {
+                      addToLS(email, data.userPassword);
+                      location.reload();
+                    }
+                  }, 2000);
+                });
+              }
+            }
           }
+
+        } else {
+          modalContainer.classList.remove('anim-block');
+          grecaptcha.reset(vars.captcha1);
+
+          captchaText.innerHTML = `
+            <div class="just-validate-error-label" style="color: rgb(184, 17, 17);">Введённый почтовый адрес существует!</div>
+          `;
         }
-      }
+      });
+
+
     } else {
       captchaText.innerHTML = `
         <div class="just-validate-error-label" style="color: rgb(184, 17, 17);">Подтвердите что вы не робот</div>
