@@ -30,15 +30,30 @@ export function map() {
 
     let captchaKey = '6LfRd5ckAAAAAD1GVeseZJSzlRw21_II9R7QwC7R';
 
-    vars.captcha1 = grecaptcha.render('captcha1', {
-      'sitekey': captchaKey,
-    });
-    vars.captcha2 = grecaptcha.render('captcha2', {
-      'sitekey': captchaKey,
-    });
-    vars.captcha3 = grecaptcha.render('captcha3', {
-      'sitekey': captchaKey,
-    });
+    if(window.innerWidth <= 575.98) {
+      vars.captcha1 = grecaptcha.render('captcha1', {
+        'sitekey': captchaKey,
+        'size': 'compact'
+      });
+      vars.captcha2 = grecaptcha.render('captcha2', {
+        'sitekey': captchaKey,
+        'size': 'compact'
+      });
+      vars.captcha3 = grecaptcha.render('captcha3', {
+        'sitekey': captchaKey,
+        'size': 'compact'
+      });
+    } else {
+      vars.captcha1 = grecaptcha.render('captcha1', {
+        'sitekey': captchaKey,
+      });
+      vars.captcha2 = grecaptcha.render('captcha2', {
+        'sitekey': captchaKey,
+      });
+      vars.captcha3 = grecaptcha.render('captcha3', {
+        'sitekey': captchaKey,
+      });
+    }
 
     // CAPTCHA /
 
@@ -217,7 +232,7 @@ export function map() {
             const postOrderForm = document.querySelector('.form--post-order');
             const modalContainer = postOrderForm.closest('.graph-modal__container');
 
-            modalContainer.classList.add('graph-modal__container--anim');
+            modalContainer.classList.add('anim-block');
 
             const phone = postOrderForm.querySelector('#create-order-phone').value;
             const title = postOrderForm.querySelector('#create-order-title').value.replace(/<[^>]+>/g, '');
@@ -226,7 +241,7 @@ export function map() {
 
             addOrderInfo('libs/add-order-info.php', user.email, obj.geometry.getCoordinates().join(), phone, title, text, (data) => {
               setTimeout(() => {
-                modalContainer.classList.remove('graph-modal__container--anim');
+                modalContainer.classList.remove('anim-block');
 
                 if (data.response) {
                   // captchaText.innerHTML = '';
@@ -313,6 +328,8 @@ export function map() {
           coordinateCount[key] = (coordinateCount[key] || 0) + 1;
         });
 
+        var lastClickTime = 0;
+
         // Создаем метки на карте
         data.coordsArr.forEach(function (coordinate) {
           var key = coordinate.coords;
@@ -342,36 +359,46 @@ export function map() {
             });
 
             marker.events.add('click', function (e) {
-              ordersList.innerHTML = '';
-              let currentArr = e.get('target').properties.get('orderInfo');
+              var currentTime = new Date().getTime();
+              if (currentTime - lastClickTime > 500) {
+                lastClickTime = currentTime;
 
-              currentArr.forEach(item => {
+                ordersList.innerHTML = '';
+                ordersListWrapper.classList.add('orders-list-wrapper--active');
+                ordersListWrapper.classList.add('anim-block');
 
-                let currentAddress;
+                let currentArr = e.get('target').properties.get('orderInfo');
 
-                ymaps.geocode(item.coords.split(',').map(parseFloat), {
-                  results: 1
-                }).then(function (res) {
-                    var firstGeoObject = res.geoObjects.get(0);
-                    currentAddress = firstGeoObject.getAddressLine();
+                currentArr.forEach(item => {
+
+                  let currentAddress;
+
+                  ymaps.geocode(item.coords.split(',').map(parseFloat), {
+                    results: 1
+                  }).then(function (res) {
+                      var firstGeoObject = res.geoObjects.get(0);
+                      currentAddress = firstGeoObject.getAddressLine();
 
 
-                    ordersList.innerHTML += `
-                      <li class="orders-list__item">
-                        <h2 class="orders-list__title">${item.placemarkTitle}</h2>
-                        <p class="orders-list__descr">${item.placemarkText}</p>
-                        <div class="orders-list__btns">
-                          <button class="btn-reset btn orders-list__btn">Показать описание</button>
-                          <button class="btn-reset btn orders-list__btn">Показать телефон</button>
-                        </div>
-                        <address class="orders-list__address">${currentAddress}</address>
-                        <div class="orders-list__date">${item.placemarkDate}</div>
-                      </li>
-                    `;
+                      ordersList.innerHTML += `
+                        <li class="orders-list__item">
+                          <h2 class="orders-list__title">${item.placemarkTitle}</h2>
+                          <p class="orders-list__descr">${item.placemarkText}</p>
+                          <div class="orders-list__btns">
+                            <button class="btn-reset btn orders-list__btn orders-list__btn--show-descr">Показать описание</button>
+                            <button class="btn-reset btn orders-list__btn">Показать телефон</button>
+                          </div>
+                          <address class="orders-list__address">${currentAddress}</address>
+                          <div class="orders-list__date">${item.placemarkDate}</div>
+                        </li>
+                      `;
+                  });
                 });
-              });
 
-              ordersListWrapper.classList.add('orders-list-wrapper--active');
+                setTimeout(() => {
+                  ordersListWrapper.classList.remove('anim-block');
+                }, 2000);
+              }
             });
 
             markers.push(marker);

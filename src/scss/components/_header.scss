@@ -11,12 +11,20 @@
 
   &__sub-content {
     @include flex-all-sb;
+
+    gap: 15px;
   }
 
   &__sub-wrapper {
     @include flex-v-center;
 
     gap: 15px;
+  }
+
+  &__btn-logout {
+    &--mobile {
+      display: none;
+    }
   }
 
   &__user {
@@ -43,5 +51,7 @@
 
   &__main-content {
     @include flex-all-sb;
+
+    gap: 15px;
   }
 }

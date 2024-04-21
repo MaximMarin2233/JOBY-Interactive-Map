@@ -63,7 +63,7 @@ export function form() {
     if (grecaptcha.getResponse(vars.captcha1)) {
       captchaText.innerHTML = '';
 
-      modalContainer.classList.add('graph-modal__container--anim');
+      modalContainer.classList.add('anim-block');
 
       const email = currentForm.querySelector('#sign-up-email').value.replace(/<[^>]+>/g, '');
       const password = currentForm.querySelector('#sign-up-password').value.replace(/<[^>]+>/g, '');
@@ -90,7 +90,7 @@ export function form() {
           if (xmlhttp.status === 200) {
             checkUser('libs/sign-in.php', email, password, (data) => {
               setTimeout(() => {
-                modalContainer.classList.remove('graph-modal__container--anim');
+                modalContainer.classList.remove('anim-block');
                 ev.target.reset();
                 grecaptcha.reset(vars.captcha1);
 
@@ -148,14 +148,14 @@ export function form() {
     if (grecaptcha.getResponse(vars.captcha2)) {
       captchaText.innerHTML = '';
 
-      modalContainer.classList.add('graph-modal__container--anim');
+      modalContainer.classList.add('anim-block');
 
       const email = currentForm.querySelector('#sign-in-email').value.replace(/<[^>]+>/g, '');
       const password = currentForm.querySelector('#sign-in-password').value.replace(/<[^>]+>/g, '');
 
       checkUser('libs/sign-in.php', email, password, (data) => {
         setTimeout(() => {
-          modalContainer.classList.remove('graph-modal__container--anim');
+          modalContainer.classList.remove('anim-block');
           grecaptcha.reset(vars.captcha2);
 
           if (data.response) {
@@ -205,14 +205,14 @@ export function form() {
     if (grecaptcha.getResponse(vars.captcha3)) {
       captchaText.innerHTML = '';
 
-      modalContainer.classList.add('graph-modal__container--anim');
+      modalContainer.classList.add('anim-block');
 
       const email = currentForm.querySelector('#password-reset-email').value.replace(/<[^>]+>/g, '');
 
 
       checkEmail('libs/check-email.php', email, (data) => {
         setTimeout(() => {
-          modalContainer.classList.remove('graph-modal__container--anim');
+          modalContainer.classList.remove('anim-block');
           grecaptcha.reset(vars.captcha3);
 
           if (data.response) {
@@ -258,13 +258,13 @@ export function form() {
     if (passwordCodeEmail) {
       captchaText.innerHTML = '';
 
-      modalContainer.classList.add('graph-modal__container--anim');
+      modalContainer.classList.add('anim-block');
 
       const code = currentForm.querySelector('#password-code').value.replace(/_/g, '').replace(/\s/g, '');
 
       checkCode('libs/check-code.php', passwordCodeEmail, code, (data) => {
         setTimeout(() => {
-          modalContainer.classList.remove('graph-modal__container--anim');
+          modalContainer.classList.remove('anim-block');
 
           if (data.response) {
             captchaText.innerHTML = '';
@@ -320,13 +320,13 @@ export function form() {
     const currentForm = document.querySelector('.form--password-new');
     const modalContainer = currentForm.closest('.graph-modal__container');
 
-    modalContainer.classList.add('graph-modal__container--anim');
+    modalContainer.classList.add('anim-block');
 
     const password = currentForm.querySelector('#password-new').value.replace(/<[^>]+>/g, '');
 
     passwordNew('libs/password-new.php', passwordCodeEmail, password, (data) => {
       setTimeout(() => {
-        modalContainer.classList.remove('graph-modal__container--anim');
+        modalContainer.classList.remove('anim-block');
 
         if (data.response) {
 

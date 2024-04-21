@@ -1,7 +1,7 @@
 export function showDescr() {
   window.addEventListener('click', (e) => {
 
-    if(e.target.classList.contains('orders-list__btn')) {
+    if(e.target.classList.contains('orders-list__btn--show-descr')) {
       if(e.target.textContent === 'Показать описание') {
         e.target.parentElement.parentElement.querySelector('.orders-list__descr').style['-webkit-line-clamp'] = 'initial';
         e.target.textContent = 'Скрыть описание';
