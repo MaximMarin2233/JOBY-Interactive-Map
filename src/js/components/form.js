@@ -72,6 +72,7 @@ export function form() {
       const phone = '';
       const placemarkTitle = '';
       const placemarkText = '';
+      const placemarkDate = '';
 
       xmlhttp.open('post', 'libs/sign-up.php', true);
       xmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
@@ -81,7 +82,8 @@ export function form() {
                   "&coords=" + encodeURIComponent(coords) +
                   "&phone=" + encodeURIComponent(phone) +
                   "&placemarkTitle=" + encodeURIComponent(placemarkTitle) +
-                  "&placemarkText=" + encodeURIComponent(placemarkText));
+                  "&placemarkText=" + encodeURIComponent(placemarkText) +
+                  "&placemarkDate=" + encodeURIComponent(placemarkDate));
 
       xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState === 4) {

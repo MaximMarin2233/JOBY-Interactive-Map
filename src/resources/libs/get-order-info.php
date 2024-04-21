@@ -3,7 +3,7 @@
 
   $mysqli = new Mysqli('localhost', 'root', '', 'joby');
   $mysqli->query("SET NAMES utf8");
-  $result = $mysqli->query("SELECT coords, phone, placemarkTitle, placemarkText FROM user WHERE id > 0");
+  $result = $mysqli->query("SELECT coords, phone, placemarkTitle, placemarkText, placemarkDate FROM user WHERE id > 0");
   $final = array(
     "response" => false,
   );
@@ -19,7 +19,8 @@
         $coordsArray[] = array('coords' => $object->coords,
                               'phone' => $object->phone,
                               'placemarkTitle' => $object->placemarkTitle,
-                              'placemarkText' => $object->placemarkText
+                              'placemarkText' => $object->placemarkText,
+                              'placemarkDate' => $object->placemarkDate
                             );
       }
   }

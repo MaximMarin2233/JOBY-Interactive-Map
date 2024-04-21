@@ -233,6 +233,7 @@ export function map() {
 
                   postOrderForm.reset();
 
+                  window.location.reload();
                   console.log('success');
                 } else {
                   // captchaText.innerHTML = `
@@ -303,6 +304,9 @@ export function map() {
 
         var coordinateCount = {};
 
+        const ordersListWrapper = document.querySelector('.orders-list-wrapper');
+        const ordersList = document.querySelector('.orders-list');
+
         // Считаем количество повторений координат
         data.coordsArr.forEach(function (coordinate) {
           var key = coordinate.coords;
@@ -314,6 +318,9 @@ export function map() {
           var key = coordinate.coords;
           var iconContent = coordinateCount[key] > 1 ? coordinateCount[key] : 1;
 
+
+          let placemarkInfoArr = duplicateCoordsArr(coordinate.coords);
+
           // Проверяем, существует ли уже метка для данной координаты
           var existingMarker = markers.find(function (marker) {
             return marker.geometry.getCoordinates().toString() === coordinate.coords;
@@ -323,7 +330,7 @@ export function map() {
             // Создаем новую метку только если её еще нет на карте
             var marker = new ymaps.Placemark(coordinate.coords.split(',').map(parseFloat), {
               iconContent: iconContent.toString(),
-              orderInfo: coordinate
+              orderInfo: placemarkInfoArr
             }, {
               iconLayout: customLayout,
               iconShape: {
@@ -335,7 +342,36 @@ export function map() {
             });
 
             marker.events.add('click', function (e) {
-              console.log(e.get('target').properties.get('orderInfo'));
+              ordersList.innerHTML = '';
+              let currentArr = e.get('target').properties.get('orderInfo');
+
+              currentArr.forEach(item => {
+
+                let currentAddress;
+
+                ymaps.geocode(item.coords.split(',').map(parseFloat), {
+                  results: 1
+                }).then(function (res) {
+                    var firstGeoObject = res.geoObjects.get(0);
+                    currentAddress = firstGeoObject.getAddressLine();
+
+
+                    ordersList.innerHTML += `
+                      <li class="orders-list__item">
+                        <h2 class="orders-list__title">${item.placemarkTitle}</h2>
+                        <p class="orders-list__descr">${item.placemarkText}</p>
+                        <div class="orders-list__btns">
+                          <button class="btn-reset btn orders-list__btn">Показать описание</button>
+                          <button class="btn-reset btn orders-list__btn">Показать телефон</button>
+                        </div>
+                        <address class="orders-list__address">${currentAddress}</address>
+                        <div class="orders-list__date">${item.placemarkDate}</div>
+                      </li>
+                    `;
+                });
+              });
+
+              ordersListWrapper.classList.add('orders-list-wrapper--active');
             });
 
             markers.push(marker);
@@ -343,9 +379,21 @@ export function map() {
           }
         });
 
-
         console.log(data.coordsArr[0].coords.split(',').map(parseFloat));
 
+
+        function duplicateCoordsArr(coords) {
+          const arr = [];
+
+          data.coordsArr.forEach(item => {
+            if(coords === item.coords) {
+              arr.push(item);
+            }
+          });
+
+          return arr;
+
+        }
 
         function updateMarkers() {
           var bounds = map.getBounds();
