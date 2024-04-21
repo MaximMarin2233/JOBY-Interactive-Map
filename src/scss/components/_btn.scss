@@ -10,6 +10,12 @@
     color 0.3s ease-in-out,
     background-color 0.3s ease-in-out;
 
+  &:disabled {
+    opacity: 0.6;
+    pointer-events: none;
+    user-select: none;
+  }
+
   &.focus-visible {
     box-shadow: 0 0 15px rgba(17 17 17 / 20%);
   }

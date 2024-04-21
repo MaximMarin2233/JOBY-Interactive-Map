@@ -10,21 +10,36 @@ export function map() {
   ymaps.ready(init);
 
   function init() {
-
     let myMap;
+    let mainCoords;
 
-    let location = ymaps.geolocation.get({
-      autoReverseGeocode: false
-    });
+    try {
+      mainCoords = localStorage.getItem('mainCoords');
+    } catch (err) {
+      mainCoords = false;
+    }
 
-    location.then(
-      function (result) {
-        defaultCreateMap(myMap, result.geoObjects.position[0], result.geoObjects.position[1]);
-      },
-      function (err) {
-        defaultCreateMap(myMap);
-      }
-    );
+    if(mainCoords) {
+      let currentCoords = mainCoords.split(',').map(parseFloat);
+      defaultCreateMap(myMap, currentCoords[0], currentCoords[1]);
+    } else {
+      let location = ymaps.geolocation.get({
+        autoReverseGeocode: false
+      });
+
+      location.then(
+        function (result) {
+          defaultCreateMap(myMap, result.geoObjects.position[0], result.geoObjects.position[1]);
+          localStorage.setItem('mainCoords', `${result.geoObjects.position[0]}, ${result.geoObjects.position[1]}`);
+        },
+        function (err) {
+          defaultCreateMap(myMap);
+        }
+      );
+    }
+
+
+
 
     // CAPTCHA
 
@@ -61,13 +76,12 @@ export function map() {
 
     const loader = document.querySelector('.loader');
 
-    loader.remove();
-    // setTimeout(() => {
-    //   loader.classList.add('loader--hidden');
-    // }, 2000);
-    // setTimeout(() => {
-    //   loader.remove();
-    // }, 2500);
+    setTimeout(() => {
+      loader.classList.add('loader--hidden');
+    }, 1500);
+    setTimeout(() => {
+      loader.remove();
+    }, 2000);
 
     // LOADER /
 
@@ -84,6 +98,8 @@ export function map() {
 
     // Подключаем поисковые подсказки к полю ввода.
     new ymaps.SuggestView('create-order-address');
+
+    const notice = document.querySelector('#notice');
 
     // При клике по кнопке запускаем верификацию введёных данных.
     // document.querySelector('[data-create-order-btn]').addEventListener('click', function (e) {
@@ -163,7 +179,7 @@ export function map() {
         // console.log(obj.getCountry());
 
         if (obj.getCountry() !== 'Россия') {
-          console.log('country err');
+          notice.textContent = 'Страна должна быть Россия';
 
           return;
         }
@@ -195,7 +211,6 @@ export function map() {
 
         // Если геокодер возвращает пустой массив или неточный результат, то показываем ошибку.
         if (error) {
-          showError(error);
           showMessage(hint);
         } else {
           showResult(obj);
@@ -203,13 +218,13 @@ export function map() {
       }, function (e) {
         console.log(e)
       }).catch(function (error) {
-        console.error('Ошибка при выполнении геокодирования:', error);
+        notice.textContent = 'Адрес не найден';
       });
 
     }
     function showResult(obj) {
       // Удаляем сообщение об ошибке, если найденный адрес совпадает с поисковым запросом.
-      console.log('not-err');
+      notice.textContent = '';
 
 
       // showMessage([obj.getCountry(), obj.getAddressLine()].join(', '));
@@ -265,12 +280,8 @@ export function map() {
 
     }
 
-    function showError(message) {
-      console.log('err');
-    }
-
     function showMessage(message) {
-      console.log(`Адрес: ${message}`);
+      notice.textContent = message;
     }
 
 
