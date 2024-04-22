@@ -397,10 +397,11 @@ export function map() {
                           <p class="orders-list__descr">${item.placemarkText}</p>
                           <div class="orders-list__btns">
                             <button class="btn-reset btn orders-list__btn orders-list__btn--show-descr">Показать описание</button>
-                            <button class="btn-reset btn orders-list__btn">Показать телефон</button>
+                            <button class="btn-reset btn orders-list__btn orders-list__btn--show-phone" data-id="${item.id}">Показать телефон</button>
                           </div>
                           <address class="orders-list__address">${currentAddress}</address>
                           <div class="orders-list__date">${item.placemarkDate}</div>
+                          <div class="orders-list__phone">Телефон: скрыт</div>
                         </li>
                       `;
                   });
