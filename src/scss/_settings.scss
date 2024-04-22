@@ -23,7 +23,10 @@ html {
 }
 
 .main {
+  @include flex;
+
   position: relative;
+  flex-grow: 1;
 }
 
 img {
@@ -43,12 +46,6 @@ a {
   flex-direction: column;
   overflow: hidden;
   height: 100%;
-}
-
-.main {
-  @include flex;
-
-  flex-grow: 1;
 }
 
 .is-hidden {

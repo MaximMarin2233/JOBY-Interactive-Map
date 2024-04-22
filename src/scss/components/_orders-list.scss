@@ -3,8 +3,8 @@
     position: absolute;
     left: 0;
     top: 0;
-    overflow: hidden;
     z-index: 10;
+    overflow: hidden;
     padding: 30px 20px;
     padding-right: 46px;
     width: 400px;
@@ -20,8 +20,8 @@
     backdrop-filter: blur(5px);
 
     &::after {
-      background-color: var(--light-color);
       border-radius: initial;
+      background-color: var(--light-color);
     }
 
     &__btn {
@@ -35,8 +35,8 @@
       svg {
         width: 100%;
         height: 100%;
+        fill: currentcolor;
         object-fit: cover;
-        fill: currentColor;
       }
     }
 
@@ -78,6 +78,7 @@
     font-weight: 400;
     font-size: 16px;
     line-height: 18px;
+    word-break: break-word;
     color: var(--dark-color);
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 1;

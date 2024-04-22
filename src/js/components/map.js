@@ -10,35 +10,40 @@ export function map() {
   ymaps.ready(init);
 
   function init() {
-    let myMap;
-    let mainCoords;
+    // let myMap;
 
-    try {
-      mainCoords = localStorage.getItem('mainCoords');
-    } catch (err) {
-      mainCoords = false;
-    }
+    // let location = ymaps.geolocation.get({
+    //   autoReverseGeocode: false
+    // });
 
-    if(mainCoords) {
-      let currentCoords = mainCoords.split(',').map(parseFloat);
-      defaultCreateMap(myMap, currentCoords[0], currentCoords[1]);
-    } else {
-      let location = ymaps.geolocation.get({
-        autoReverseGeocode: false
-      });
-
-      location.then(
-        function (result) {
-          defaultCreateMap(myMap, result.geoObjects.position[0], result.geoObjects.position[1]);
-          localStorage.setItem('mainCoords', `${result.geoObjects.position[0]}, ${result.geoObjects.position[1]}`);
-        },
-        function (err) {
-          defaultCreateMap(myMap);
-        }
-      );
-    }
+    // location.then(
+    //   function (result) {
+    //     defaultCreateMap(myMap, result.geoObjects.position[0], result.geoObjects.position[1]);
+    //   },
+    //   function (err) {
+    //     defaultCreateMap(myMap);
+    //   }
+    // );
 
 
+    // Создаем карту с центром в Москве
+    let myMap = new ymaps.Map("joby-map", {
+        center: [55.753215, 37.622504],
+        zoom: 10
+    });
+
+    defaultCreateMap(myMap);
+
+    // Запрашиваем геолокацию пользователя
+    ymaps.geolocation.get({
+      autoReverseGeocode: false
+    }).then(function (result) {
+        // Если получили геолокацию пользователя, центрируем карту по его местоположению
+        myMap.setCenter(result.geoObjects.get(0).geometry.getCoordinates());
+    }, function (error) {
+        // Если пользователь отказался от предоставления геолокации или произошла ошибка, центрируем карту в Москве
+        console.log('Ошибка определения местоположения: ' + error.message);
+    });
 
 
     // CAPTCHA
@@ -156,8 +161,8 @@ export function map() {
           },
           {
             rule: 'minLength',
-            value: 10,
-            errorMessage: 'Минимальная длина - 10 символов!',
+            value: 40,
+            errorMessage: 'Минимальная длина - 40 символов!',
           },
         ]
       },
@@ -289,12 +294,7 @@ export function map() {
 
   }
 
-  function defaultCreateMap(map, x = 55.76, y = 37.64) {
-    map = new ymaps.Map("joby-map", {
-      center: [x, y],
-      zoom: 10
-    });
-
+  function defaultCreateMap(map) {
     getOrderInfo('libs/get-order-info.php', (data) => {
       console.log(data);
       if (data.response) {

@@ -81,6 +81,13 @@
     gap: 15px;
   }
 
+  &__warning-text {
+    font-weight: 500;
+    font-size: 13px;
+    color: var(--dark-color);
+    opacity: 0.5;
+  }
+
   &__label,
   &__content-btn {
     font-weight: 400;

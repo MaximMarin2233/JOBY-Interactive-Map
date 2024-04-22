@@ -102,12 +102,20 @@
 
     &__input-wrapper {
       &::before {
-        top: 11px;
+        left: 15px;
+        top: 14px;
+        width: 20px;
+        height: 20px;
       }
     }
 
     &__input {
       padding: 15px;
+      padding-left: 40px;
+    }
+
+    &__warning-text {
+      font-size: 11px;
     }
 
     &__label,
@@ -119,6 +127,10 @@
     &__input::placeholder {
       font-size: 13px;
     }
+  }
+
+  .just-validate-error-label {
+    font-size: 13px;
   }
 }
 
