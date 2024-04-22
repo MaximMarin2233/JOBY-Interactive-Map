@@ -7,6 +7,7 @@ import { checkEmail } from "./checkEmail";
 import { checkCode } from "./checkCode";
 import { passwordNew } from "./passwordNew";
 import { validForm } from "./validForm";
+import { getPhone } from "./getPhone";
 
 export function form() {
   const modal = new GraphModal();
@@ -355,6 +356,39 @@ export function form() {
       }, 2000);
     });
 
+  });
+
+  window.addEventListener('click', (e) => {
+    if(e.target.classList.contains('orders-list__btn--show-phone')) {
+      let user;
+
+      try {
+        user = JSON.parse(localStorage.getItem('userInf'));
+      } catch (err) {
+        user = false;
+      }
+
+      if(user) {
+        checkUser('libs/sign-in-LS.php', user.email, user.password, (data) => {
+          if(data.response) {
+            console.log('ok!');
+
+            getPhone('libs/get-phone.php', e.target.dataset.id, (data) => {
+              console.log(data);
+              if (data.response) {
+                e.target.parentElement.parentElement.querySelector('.orders-list__phone').textContent = `
+                  Телефон: ${data.phone}
+                `;
+                e.target.remove();
+              }
+            });
+          }
+        });
+      } else {
+        modal.open('btn-sign-in');
+      }
+
+    }
   });
 
 }
