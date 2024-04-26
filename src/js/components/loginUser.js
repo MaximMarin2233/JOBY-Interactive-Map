@@ -1,4 +1,11 @@
+import { checkUser } from "./checkUser";
+import { checkEmail } from "./checkEmail";
+import { deletePlacemark } from "./deletePlacemark";
+
 export function loginUser(email) {
+
+  const mainContent = document.querySelector('.header__main-content');
+
   document.querySelector('[data-content]').innerHTML = `
     <div class="header__sub-wrapper">
       <div class="header__user">${email}</div>
@@ -13,6 +20,42 @@ export function loginUser(email) {
 
     <button class="btn-reset btn btn--animation--head-shake header__sub-btn" data-graph-path="btn-create-order">Разместить заказ</button>
   `;
+
+  checkEmail('libs/check-coords.php', email, (data) => {
+    if (data.response) {
+      mainContent.innerHTML += `
+        <button class="btn-reset btn header__main-btn" data-delete-placemark>Удалить мой заказ</button>
+      `;
+
+      document.querySelector('[data-delete-placemark]').addEventListener('click', () => {
+        let user;
+
+        try {
+          user = JSON.parse(localStorage.getItem('userInf'));
+        } catch (err) {
+          user = false;
+        }
+
+        if(user) {
+          checkUser('libs/sign-in-LS.php', user.email, user.password, (data) => {
+            if(data.response) {
+
+              deletePlacemark('libs/delete-placemark.php', user.email, (data) => {
+                if(data.response) {
+                  location.reload();
+                }
+              });
+
+            }
+          });
+        }
+      });
+    } else {
+      mainContent.innerHTML += `
+        <button class="btn-reset btn header__main-btn" disabled title="У вас пока что нету размещенного заказа!">Удалить мой заказ</button>
+      `;
+    }
+  });
 
   document.querySelectorAll('[data-btn-quit]').forEach(item => {
     item.addEventListener('click', () => {

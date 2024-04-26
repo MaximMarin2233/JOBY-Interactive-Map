@@ -13,6 +13,18 @@ html {
   height: 100%;
   font-family: var(--font-family, sans-serif);
   -webkit-text-size-adjust: 100%;
+
+  &--policy {
+    overflow: initial;
+
+    .site-container {
+      overflow: initial;
+    }
+
+    .main {
+      justify-content: center;
+    }
+  }
 }
 
 .page__body {

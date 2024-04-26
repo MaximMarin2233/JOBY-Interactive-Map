@@ -86,6 +86,11 @@
     font-size: 13px;
     color: var(--dark-color);
     opacity: 0.5;
+
+    a {
+      text-decoration: underline;
+      color: currentcolor;
+    }
   }
 
   &__label,
