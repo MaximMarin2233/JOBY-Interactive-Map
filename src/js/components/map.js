@@ -42,7 +42,7 @@ export function map() {
         myMap.setCenter(result.geoObjects.get(0).geometry.getCoordinates());
     }, function (error) {
         // Если пользователь отказался от предоставления геолокации или произошла ошибка, центрируем карту в Москве
-        console.log('Ошибка определения местоположения: ' + error.message);
+        // console.log('Ошибка определения местоположения: ' + error.message);
     });
 
 
@@ -180,7 +180,6 @@ export function map() {
         let obj = res.geoObjects.get(0),
           error, hint;
 
-        console.log(obj.geometry.getCoordinates());
         // console.log(obj.getCountry());
 
         if (obj.getCountry() !== 'Россия') {
@@ -221,7 +220,7 @@ export function map() {
           showResult(obj);
         }
       }, function (e) {
-        console.log(e)
+        // console.log(e)
       }).catch(function (error) {
         notice.textContent = 'Адрес не найден';
       });
@@ -269,12 +268,11 @@ export function map() {
                   postOrderForm.reset();
 
                   window.location.reload();
-                  console.log('success');
                 } else {
                   // captchaText.innerHTML = `
                   //   <div class="just-validate-error-label" style="color: rgb(184, 17, 17);">Введённый почтовый адрес не существует!</div>
                   // `;
-                  console.log('err');
+                  // console.log('err');
                 }
               }, 2000);
             });
@@ -296,7 +294,6 @@ export function map() {
 
   function defaultCreateMap(map) {
     getOrderInfo('libs/get-order-info.php', (data) => {
-      console.log(data);
       if (data.response) {
         // data.coordsArr.forEach(item => {
         //   var placemark = new ymaps.Placemark(item.split(',').map(parseFloat));
@@ -418,7 +415,6 @@ export function map() {
           }
         });
 
-        console.log(data.coordsArr[0].coords.split(',').map(parseFloat));
 
 
         function duplicateCoordsArr(coords) {

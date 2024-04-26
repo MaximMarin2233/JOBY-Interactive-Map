@@ -371,10 +371,7 @@ export function form() {
       if(user) {
         checkUser('libs/sign-in-LS.php', user.email, user.password, (data) => {
           if(data.response) {
-            console.log('ok!');
-
             getPhone('libs/get-phone.php', e.target.dataset.id, (data) => {
-              console.log(data);
               if (data.response) {
                 e.target.parentElement.parentElement.querySelector('.orders-list__phone').textContent = `
                   Телефон: ${data.phone}
