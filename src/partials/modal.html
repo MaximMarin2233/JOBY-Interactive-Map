@@ -10,17 +10,17 @@
         <div class="form__content">
           <label class="form__label" for="sign-up-email">Ваш E-mail:</label>
           <div class="form__input-wrapper form__input-wrapper--1">
-            <input class="input-reset form__input" id="sign-up-email" type="email" name="email" placeholder="E-mail">
+            <input class="input-reset form__input" id="sign-up-email" type="email" name="email" placeholder="E-mail" maxlength="230">
           </div>
           <label class="form__label" for="sign-up-password">Придумайте пароль:</label>
           <div class="form__input-wrapper form__input-wrapper--3">
             <input class="input-reset form__input" id="sign-up-password" type="password" name="password"
-              placeholder="Пароль">
+              placeholder="Пароль" maxlength="230">
           </div>
           <label class="form__label" for="sign-up-password-repeat">Повторите ввод пароля:</label>
           <div class="form__input-wrapper form__input-wrapper--3">
             <input class="input-reset form__input" id="sign-up-password-repeat" type="password" name="password-repeat"
-              placeholder="Пароль">
+              placeholder="Пароль" maxlength="230">
           </div>
           <div id="captcha1"></div>
           <div class="graph-modal__captcha-text"></div>
@@ -46,7 +46,7 @@
             <button class="btn-reset form__content-btn" type="button" data-graph-path="btn-sign-up">Регистрация</button>
           </div>
           <div class="form__input-wrapper form__input-wrapper--1">
-            <input class="input-reset form__input" id="sign-in-email" type="email" name="email" placeholder="E-mail">
+            <input class="input-reset form__input" id="sign-in-email" type="email" name="email" placeholder="E-mail" maxlength="230">
           </div>
           <div class="form__text-wrapper">
             <label class="form__label" for="sign-in-password">Введите ваш пароль:</label>
@@ -55,7 +55,7 @@
           </div>
           <div class="form__input-wrapper form__input-wrapper--3">
             <input class="input-reset form__input" id="sign-in-password" type="password" name="password"
-              placeholder="Пароль">
+              placeholder="Пароль" maxlength="230">
           </div>
           <div id="captcha2"></div>
           <div class="graph-modal__captcha-text"></div>
@@ -68,7 +68,7 @@
   <div class="graph-modal__container" role="dialog" aria-modal="true" data-graph-target="password-forget">
     <div class="graph-modal__content">
       <div class="graph-modal__title-wrapper">
-        <h2 class="graph-modal__title">Востановление пароля</h2>
+        <h2 class="graph-modal__title">Восстановление пароля</h2>
         <button class="btn-reset js-modal-close graph-modal__close" aria-label="Закрыть модальное окно"></button>
       </div>
       <form class="form form--password-reset" action="#">
@@ -76,7 +76,7 @@
           <label class="form__label" for="password-reset-email">Ваш E-mail:</label>
           <div class="form__input-wrapper form__input-wrapper--1">
             <input class="input-reset form__input" id="password-reset-email" type="email" name="email"
-              placeholder="E-mail">
+              placeholder="E-mail" maxlength="230">
           </div>
           <div id="captcha3"></div>
           <div class="graph-modal__captcha-text"></div>
@@ -97,7 +97,7 @@
           <label class="form__label" for="password-code">Шестизначный код:</label>
           <div class="form__input-wrapper">
             <input class="input-reset form__input form__input--code" id="password-code" type="text" name="code"
-              placeholder="_ _ _  _ _ _" data-code-mask>
+              placeholder="_ _ _  _ _ _" maxlength="230" data-code-mask>
           </div>
           <div class="graph-modal__captcha-text"></div>
         </div>
@@ -117,12 +117,12 @@
           <label class="form__label" for="password-new">Введите новый пароль:</label>
           <div class="form__input-wrapper form__input-wrapper--3">
             <input class="input-reset form__input" id="password-new" type="password" name="password"
-              placeholder="Пароль">
+              placeholder="Пароль" maxlength="230">
           </div>
           <label class="form__label" for="password-new-repeat">Повторите ввод нового пароля:</label>
           <div class="form__input-wrapper form__input-wrapper--3">
             <input class="input-reset form__input" id="password-new-repeat" type="password" name="password-repeat"
-              placeholder="Пароль">
+              placeholder="Пароль" maxlength="230">
           </div>
         </div>
         <button class="btn-reset btn btn--bold form__btn">Сохранить</button>
@@ -141,24 +141,24 @@
           <label class="form__label" for="create-order-address">Введите адрес:</label>
           <div class="form__input-wrapper form__input-wrapper--4">
             <input class="input-reset form__input" id="create-order-address" type="text" name="address"
-              placeholder="Адрес">
+              placeholder="Адрес" maxlength="230">
           </div>
 
           <div id="notice" style="color: rgb(184, 17, 17);"></div>
 
           <label class="form__label" for="create-order-phone">Введите телефон:</label>
           <div class="form__input-wrapper form__input-wrapper--5">
-            <input class="input-reset form__input" id="create-order-phone" type="text" name="phone" placeholder="">
+            <input class="input-reset form__input" id="create-order-phone" type="text" name="phone" placeholder="" maxlength="230">
           </div>
 
           <label class="form__label" for="create-order-title">Введите заголовок:</label>
           <div class="form__input-wrapper form__input-wrapper--not-padding">
-            <input class="input-reset form__input" id="create-order-title" type="text" name="title" placeholder="">
+            <input class="input-reset form__input" id="create-order-title" type="text" name="title" placeholder="" maxlength="230">
           </div>
 
           <label class="form__label" for="create-order-text">Распишите Вашу проблему:</label>
           <div class="form__input-wrapper form__input-wrapper--not-padding">
-            <textarea class="input-reset form__input form__input--textarea" id="create-order-text"></textarea>
+            <textarea class="input-reset form__input form__input--textarea" id="create-order-text" maxlength="230"></textarea>
           </div>
 
         </div>
@@ -167,6 +167,24 @@
           Нажимая на кнопку 'Разместить', вы принимаете нашу <a href="policy.html">политику конфиденциальности</a>.
         </div>
       </form>
+    </div>
+  </div>
+
+  <div class="graph-modal__container graph-modal__container--using" role="dialog" aria-modal="true" data-graph-target="using-website">
+    <div class="graph-modal__content">
+      <div class="graph-modal__title-wrapper">
+        <h2 class="graph-modal__title">Как пользоваться сайтом</h2>
+        <button class="btn-reset js-modal-close graph-modal__close" aria-label="Закрыть модальное окно"></button>
+      </div>
+      <p class="graph-modal__descr">
+        На сайте размещена карта города с метками, <span class="graph-modal__descr--bold">каждая из которых представляет собой заказ, размещенный пользователями.</span> Эти заказы представляют собой задачи, которые требуется выполнить мастерам. Чтобы принять заказ, мастеру необходимо связаться с заказчиком по указанному номеру телефона, договориться о встрече и обсудить условия выполнения работы, включая стоимость.
+      </p>
+      <p class="graph-modal__descr">
+        <span class="graph-modal__descr--bold">Чтобы увидеть контактный номер телефона, необходимо зарегистрироваться на сайте.</span> В противном случае номер телефона останется скрытым.
+      </p>
+      <p class="graph-modal__descr">
+        Чтобы разместить свой заказ на карте, воспользуйтесь кнопкой "Разместить заказ". Для этого Вам тоже нужно выполнить регистрацию.
+      </p>
     </div>
   </div>
 

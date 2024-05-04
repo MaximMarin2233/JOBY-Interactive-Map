@@ -146,7 +146,7 @@ a {
   position: fixed;
   left: 0;
   top: 0;
-  z-index: 99;
+  z-index: 1001;
   width: 100%;
   height: 100%;
   background-color: #fff;
@@ -208,5 +208,26 @@ a {
   .form,
   .orders-list {
     pointer-events: none;
+  }
+}
+
+.joby-placing {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  z-index: 1;
+  border-radius: 10px;
+  width: 70px;
+  height: 310px;
+  box-shadow: 0 4px 15px rgb(0 0 0 / 50%);
+  background-color: var(--light-color);
+  transform: translateY(-50%);
+
+  span {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 256px;
+    transform: translate(-50%, -50%) rotate(90deg);
   }
 }

@@ -22,6 +22,16 @@
   }
 }
 
+@media (max-width: 767.98px) {
+  .graph-modal {
+    &__container {
+      &--using {
+        width: 90%;
+      }
+    }
+  }
+}
+
 @media (max-width: 575.98px) {
   .btn {
     border-radius: 12px;
@@ -95,6 +105,10 @@
     &__title {
       font-size: 18px;
     }
+
+    &__descr {
+      font-size: 13px;
+    }
   }
 
   .form {
@@ -131,6 +145,16 @@
 
   .just-validate-error-label {
     font-size: 13px;
+  }
+
+  .joby-placing {
+    width: 40px;
+    height: 220px;
+
+    span {
+      width: 178px;
+      font-size: 11px;
+    }
   }
 }
 

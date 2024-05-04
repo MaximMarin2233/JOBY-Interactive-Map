@@ -12,6 +12,14 @@ import { getPhone } from "./getPhone";
 export function form() {
   const modal = new GraphModal();
 
+  let usingInf = localStorage.getItem('using-inf');
+
+  if (!usingInf) {
+    modal.open('using-website');
+    localStorage.setItem('using-inf', true)
+  }
+
+
   validForm('.form--sign-up', [
     {
       ruleSelector: '#sign-up-email',
@@ -23,6 +31,11 @@ export function form() {
         {
           rule: 'email',
           errorMessage: 'Некорректный E-mail!',
+        },
+        {
+          rule: 'maxLength',
+          value: 230,
+          errorMessage: 'Максимальная длина - 230 символов!',
         },
       ]
     },
@@ -37,6 +50,11 @@ export function form() {
           rule: 'minLength',
           value: 5,
           errorMessage: 'Минимальная длина - 5 символов!',
+        },
+        {
+          rule: 'maxLength',
+          value: 230,
+          errorMessage: 'Максимальная длина - 230 символов!',
         },
       ]
     },
@@ -142,6 +160,11 @@ export function form() {
           rule: 'email',
           errorMessage: 'Некорректный E-mail!',
         },
+        {
+          rule: 'maxLength',
+          value: 230,
+          errorMessage: 'Максимальная длина - 230 символов!',
+        },
       ]
     },
     {
@@ -155,6 +178,11 @@ export function form() {
           rule: 'minLength',
           value: 5,
           errorMessage: 'Минимальная длина - 5 символов!',
+        },
+        {
+          rule: 'maxLength',
+          value: 230,
+          errorMessage: 'Максимальная длина - 230 символов!',
         },
       ]
     },
@@ -213,6 +241,11 @@ export function form() {
           rule: 'email',
           errorMessage: 'Некорректный E-mail!',
         },
+        {
+          rule: 'maxLength',
+          value: 230,
+          errorMessage: 'Максимальная длина - 230 символов!',
+        },
       ]
     },
   ], (ev) => {
@@ -266,6 +299,11 @@ export function form() {
           rule: 'required',
           errorMessage: 'Введите код!',
         },
+        {
+          rule: 'maxLength',
+          value: 230,
+          errorMessage: 'Максимальная длина - 230 символов!',
+        },
       ]
     },
   ], (ev) => {
@@ -317,6 +355,11 @@ export function form() {
           rule: 'minLength',
           value: 5,
           errorMessage: 'Минимальная длина - 5 символов!',
+        },
+        {
+          rule: 'maxLength',
+          value: 230,
+          errorMessage: 'Максимальная длина - 230 символов!',
         },
       ]
     },

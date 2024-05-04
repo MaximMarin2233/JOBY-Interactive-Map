@@ -34,16 +34,43 @@ export function map() {
 
     defaultCreateMap(myMap);
 
-    // Запрашиваем геолокацию пользователя
-    ymaps.geolocation.get({
-      autoReverseGeocode: false
-    }).then(function (result) {
-        // Если получили геолокацию пользователя, центрируем карту по его местоположению
-        myMap.setCenter(result.geoObjects.get(0).geometry.getCoordinates());
-    }, function (error) {
-        // Если пользователь отказался от предоставления геолокации или произошла ошибка, центрируем карту в Москве
-        // console.log('Ошибка определения местоположения: ' + error.message);
-    });
+    // LOADER
+
+    const loader = document.querySelector('.loader');
+
+    setTimeout(() => {
+      loader.classList.add('loader--hidden');
+    }, 1500);
+    setTimeout(() => {
+      loader.remove();
+    }, 2000);
+
+    // LOADER /
+
+    let savedCoords = localStorage.getItem('userCoords');
+
+    if (savedCoords) {
+        // Если есть, центрируем карту по сохраненным координатам
+        let coords = JSON.parse(savedCoords);
+        myMap.setCenter(coords);
+    } else {
+        // Если нет, запрашиваем геолокацию пользователя
+        ymaps.geolocation.get({
+          provider: 'auto',
+          autoReverseGeocode: false,
+          accuracy: 'high'
+        }).then(function (result) {
+            // Если получили геолокацию пользователя, центрируем карту по его местоположению
+            let userCoords = result.geoObjects.get(0).geometry.getCoordinates();
+            myMap.setCenter(userCoords);
+
+            // Сохраняем координаты в localStorage
+            localStorage.setItem('userCoords', JSON.stringify(userCoords));
+        }, function (error) {
+            // Если пользователь отказался от предоставления геолокации или произошла ошибка, центрируем карту в Москве
+            // console.log('Ошибка определения местоположения: ' + error.message);
+        });
+    }
 
 
     // CAPTCHA
@@ -77,18 +104,7 @@ export function map() {
 
     // CAPTCHA /
 
-    // LOADER
 
-    const loader = document.querySelector('.loader');
-
-    setTimeout(() => {
-      loader.classList.add('loader--hidden');
-    }, 1500);
-    setTimeout(() => {
-      loader.remove();
-    }, 2000);
-
-    // LOADER /
 
     const inputMask = new Inputmask({
       mask: '+7 999 999 99 99',
@@ -119,6 +135,11 @@ export function map() {
             rule: 'required',
             errorMessage: 'Введите адрес!',
           },
+          {
+            rule: 'maxLength',
+            value: 230,
+            errorMessage: 'Максимальная длина - 230 символов!',
+          },
         ]
       },
       {
@@ -127,6 +148,11 @@ export function map() {
           {
             rule: 'required',
             errorMessage: 'Введите телефон!',
+          },
+          {
+            rule: 'maxLength',
+            value: 230,
+            errorMessage: 'Максимальная длина - 230 символов!',
           },
           {
             rule: 'function',
@@ -150,6 +176,11 @@ export function map() {
             value: 10,
             errorMessage: 'Минимальная длина - 10 символов!',
           },
+          {
+            rule: 'maxLength',
+            value: 230,
+            errorMessage: 'Максимальная длина - 230 символов!',
+          },
         ]
       },
       {
@@ -163,6 +194,11 @@ export function map() {
             rule: 'minLength',
             value: 40,
             errorMessage: 'Минимальная длина - 40 символов!',
+          },
+          {
+            rule: 'maxLength',
+            value: 230,
+            errorMessage: 'Максимальная длина - 230 символов!',
           },
         ]
       },

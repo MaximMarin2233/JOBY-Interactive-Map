@@ -37,5 +37,17 @@
     min-width: 300px;
     max-width: 450px;
     box-shadow: 0 4px 150px rgba(17 17 17 / 50%);
+
+    &--using {
+      max-width: 600px;
+    }
+  }
+
+  &__descr {
+    line-height: 20px;
+
+    &--bold {
+      font-weight: 500;
+    }
   }
 }
